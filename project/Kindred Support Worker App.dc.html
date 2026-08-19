@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/industry-fd527d09-0ff1-4999-9b53-780b24cf0880/styles.css">
+<script src="_ds/industry-fd527d09-0ff1-4999-9b53-780b24cf0880/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<meta name="design_doc_mode" content="canvas">
+<style>
+body{margin:0}
+.kin-frame-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+.kin-label{font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-accent-800)}
+.kin-bottomnav{display:flex;justify-content:space-around;align-items:center;padding:12px 8px 10px;border-top:1px solid var(--color-divider);background:var(--color-bg);box-shadow:var(--shadow-sm)}
+.kin-navicon{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;color:var(--color-neutral-600);font-family:var(--font-heading);font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.kin-navicon.active{color:var(--color-accent-800)}
+.kin-navicon svg{width:21px;height:21px}
+.kin-bubble-in{align-self:flex-start;max-width:78%;border:1px solid var(--color-divider);padding:8px 12px;font-size:13px;border-radius:0}
+.kin-bubble-out{align-self:flex-end;max-width:78%;background:var(--color-accent-100);color:var(--color-accent-900);padding:8px 12px;font-size:13px;border-radius:0}
+</style>
+</helmet>
+<div style="background:var(--color-bg);min-height:100vh;padding:56px;font-family:var(--font-body);box-sizing:border-box">
+
+  <div style="max-width:680px;margin:0 0 44px">
+    <span class="tag tag-accent">DESIGN BRIEF</span>
+    <h1 style="margin:14px 0 8px">Ablena Support — a support worker app</h1>
+    <p style="font-size:15px;line-height:1.6;opacity:.8;margin:0">Six worker-facing screens covering Mable's core loop — find shifts, prove trust, get booked, message, check in, get paid — plus three differences: a live compatibility score instead of a static profile, transparent verification badges the participant can see too, and Face ID at every trust moment (login and shift check-in) so identity never rides on a password alone. Every screen is shown in both iOS and Android. Copy stays warm and plain-language even inside the system's technical frame.</p>
+    <p style="font-size:12px;opacity:.55;margin:10px 0 0">ablenasupport.com.au · ABN 72 847 553 487</p>
+  </div>
+
+  <h2 style="margin:0 0 20px">iOS</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:64px;align-items:flex-start;margin-bottom:56px">
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">01 · Unlock</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:24px;background:var(--color-bg);box-sizing:border-box">
+          <div style="text-align:center">
+            <div style="font-family:var(--font-heading);font-weight:600;font-size:30px;letter-spacing:.02em">Ablena Support</div>
+            <div style="font-size:13px;opacity:.6;margin-top:4px">Connecting people. Enabling independence.</div>
+          </div>
+          <div class="blueprint" style="width:132px;height:132px;display:flex;align-items:center;justify-content:center">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#416180" stroke-width="1.5">
+              <path d="M4 8V6a2 2 0 012-2h2"></path><path d="M20 8V6a2 2 0 00-2-2h-2"></path>
+              <path d="M4 16v2a2 2 0 002 2h2"></path><path d="M20 16v2a2 2 0 01-2 2h-2"></path>
+              <circle cx="9" cy="10" r="1"></circle><circle cx="15" cy="10" r="1"></circle>
+              <path d="M9 15c1 1 5 1 6 0"></path>
+            </svg>
+          </div>
+          <div style="font-size:13px;color:#5d5d60">Unlock with Face ID</div>
+          <div style="width:100%;display:flex;flex-direction:column;gap:10px;margin-top:10px">
+            <button class="btn btn-primary btn-block">Continue</button>
+            <button class="btn btn-ghost btn-block">Use passcode instead</button>
+          </div>
+          <a href="#" style="font-size:12px;color:#416180;margin-top:6px">New worker? Get verified →</a>
+        </div>
+      </x-import>
+    </div>
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">02 · Shift feed</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div class="nav" style="border-bottom:1px solid var(--color-divider);padding-top:54px">
+            <span class="nav-brand">Ablena Support</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1d1f20" stroke-width="1.5"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.7 21a2 2 0 01-3.4 0"></path></svg>
+          </div>
+          <div style="padding:12px 16px 6px">
+            <div class="seg" style="width:100%">
+              <label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="feed-ios" checked="checked"></input>For you</label>
+              <label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="feed-ios"></input>Nearby</label>
+              <label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="feed-ios"></input>Saved</label>
+            </div>
+          </div>
+          <div style="flex:1;overflow:auto;padding:6px 16px 16px;display:flex;flex-direction:column;gap:12px">
+            <div class="card blueprint elev-sm" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div class="card-kicker">PERSONAL CARE · 2.4KM</div>
+                <span class="tag tag-accent">94% match</span>
+              </div>
+              <div class="card-title">Morning routine with Priya</div>
+              <p class="card-body">Hoist transfer, shower support and breakfast. Priya likes a chatty start to the day.</p>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <span class="tag tag-neutral">Manual handling</span>
+                <span class="tag tag-neutral">Non-verbal comms</span>
+              </div>
+              <div class="card-meta">Tue · 7:00–9:00am · $58.20/hr</div>
+              <button class="btn btn-secondary btn-block">View & apply</button>
+            </div>
+            <div class="card blueprint elev-sm" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div class="card-kicker">COMMUNITY ACCESS · 5.1KM</div>
+                <span class="tag tag-accent">88% match</span>
+              </div>
+              <div class="card-title">Gym session with Tom</div>
+              <p class="card-body">Spotting and encouragement at the local pool — Tom's training for a swim carnival.</p>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <span class="tag tag-neutral">Physical support</span>
+              </div>
+              <div class="card-meta">Wed · 4:00–5:30pm · $52.60/hr</div>
+              <button class="btn btn-secondary btn-block">View & apply</button>
+            </div>
+            <div class="card blueprint elev-sm" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div class="card-kicker">OVERNIGHT · 6.8KM</div>
+                <span class="tag tag-accent">91% match</span>
+              </div>
+              <div class="card-title">Overnight stay with Grace</div>
+              <p class="card-body">Sleepover shift — settle Grace at 9pm, on call, help her get ready for school.</p>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <span class="tag tag-neutral">Overnight</span><span class="tag tag-neutral">Routine care</span>
+              </div>
+              <div class="card-meta">Fri · 9:00pm–7:00am · $41.10/hr</div>
+              <button class="btn btn-secondary btn-block">View & apply</button>
+            </div>
+          </div>
+          <div class="kin-bottomnav">
+            <div class="kin-navicon active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>Feed</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>Schedule</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h18v11H7l-4 4V5z"></path></svg>Messages</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>Profile</div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">03 · Match detail</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div class="nav" style="border-bottom:1px solid var(--color-divider);padding-top:54px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d1f20" stroke-width="1.8"><path d="M15 18l-6-6 6-6"></path></svg>
+            <span class="nav-brand" style="margin:0 auto;font-size:15px">Job details</span>
+            <span style="width:16px"></span>
+          </div>
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:16px">
+            <div class="blueprint duotone" style="width:100%;height:170px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <image-slot id="participant-priya-ios" shape="rect" placeholder="Photo of Priya"></image-slot>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <h3 style="margin:0">Priya, 34 · Fairfield</h3>
+                <span class="tag tag-accent">94% match</span>
+              </div>
+              <p style="font-size:13px;opacity:.75;margin-top:8px">Priya has cerebral palsy and lives with her sister. She loves gardening podcasts and needs a steady, cheerful hand in the mornings.</p>
+            </div>
+            <div>
+              <h6>Support needed</h6>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <span class="tag tag-outline">Personal care</span><span class="tag tag-outline">Manual handling</span><span class="tag tag-outline">Meal prep</span>
+              </div>
+            </div>
+            <div class="card blueprint" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">You meet every requirement</div>
+              <div style="display:flex;flex-direction:column;gap:6px;font-size:13px">
+                <div style="display:flex;justify-content:space-between">Manual handling cert <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">NDIS Worker Screening <span class="tag tag-accent">Verified</span></div>
+              </div>
+            </div>
+          </div>
+          <div style="background:var(--color-bg);border-top:1px solid var(--color-divider);padding:12px 16px;display:flex;gap:10px;align-items:center">
+            <div style="flex:1">
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:18px">$58.20/hr</div>
+              <div style="font-size:11px;opacity:.6">Tue · 7:00–9:00am</div>
+            </div>
+            <button class="btn btn-secondary">Message</button>
+            <button class="btn btn-primary">Apply</button>
+          </div>
+          <div class="kin-bottomnav">
+            <div class="kin-navicon active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>Feed</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>Schedule</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h18v11H7l-4 4V5z"></path></svg>Messages</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>Profile</div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">04 · Shift check-in</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div style="flex:1;overflow:auto;padding:64px 16px 16px;display:flex;flex-direction:column;gap:16px;box-sizing:border-box">
+            <h3 style="margin:0">Today</h3>
+            <div class="card blueprint" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">7:00 – 9:00AM</div>
+              <div class="card-title">Morning routine with Priya</div>
+              <div class="card-meta">14 Grove St, Fairfield</div>
+              <button class="btn btn-primary btn-block" style="margin-top:6px;display:flex;gap:8px;align-items:center;justify-content:center">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8V6a2 2 0 012-2h2"></path><path d="M20 8V6a2 2 0 00-2-2h-2"></path><path d="M4 16v2a2 2 0 002 2h2"></path><path d="M20 16v2a2 2 0 01-2 2h-2"></path><circle cx="9" cy="10" r="1"></circle><circle cx="15" cy="10" r="1"></circle></svg>
+                Check in with Face ID
+              </button>
+            </div>
+            <div class="field">
+              <label>Shift notes</label>
+              <textarea class="input" placeholder="Priya had a good morning, ate full breakfast..."></textarea>
+            </div>
+            <div>
+              <h6>This week</h6>
+              <div style="display:flex;flex-direction:column;gap:0">
+                <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--color-divider)"><span>Mon · Tom B.</span><span class="tag tag-accent">Completed</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--color-divider)"><span>Sat · Grace L.</span><span class="tag tag-neutral">Upcoming</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="kin-bottomnav">
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>Feed</div>
+            <div class="kin-navicon active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>Schedule</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h18v11H7l-4 4V5z"></path></svg>Messages</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>Profile</div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">05 · Messages</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div class="nav" style="border-bottom:1px solid var(--color-divider);padding-top:54px">
+            <span class="nav-brand" style="font-size:15px">Priya M.</span>
+            <span class="tag tag-accent">Verified</span>
+          </div>
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px">
+            <div class="kin-bubble-in">Hi! Looking forward to Tuesday morning.</div>
+            <div class="kin-bubble-out">Me too — I'll bring the podcast list you mentioned.</div>
+            <div class="kin-bubble-in">Perfect. My sister will be home too if you need anything.</div>
+          </div>
+          <div style="display:flex;gap:8px;padding:10px;border-top:1px solid var(--color-divider);align-items:center">
+            <input class="input" placeholder="Message Priya…" style="flex:1"></input>
+            <button class="btn btn-primary btn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20l16-8L4 4v6l10 2-10 2z"></path></svg></button>
+          </div>
+          <div class="kin-bottomnav">
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>Feed</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>Schedule</div>
+            <div class="kin-navicon active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h18v11H7l-4 4V5z"></path></svg>Messages</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>Profile</div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">06 · Profile & earnings</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div style="flex:1;overflow:auto;padding:64px 16px 16px;display:flex;flex-direction:column;gap:16px;box-sizing:border-box">
+            <div style="display:flex;gap:14px;align-items:center">
+              <div class="blueprint duotone" style="width:72px;height:72px;flex:none">
+                <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                <image-slot id="worker-avatar-ios" shape="rect" placeholder="Your photo"></image-slot>
+              </div>
+              <div>
+                <div style="font-family:var(--font-heading);font-weight:600;font-size:19px">Amara N.</div>
+                <div style="font-size:12px;opacity:.65">4.98 ★ · 132 reviews</div>
+                <span class="tag tag-accent" style="margin-top:4px;display:inline-block">Verified support worker</span>
+              </div>
+            </div>
+            <div class="card blueprint" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">Verification status</div>
+              <div style="display:flex;flex-direction:column;gap:6px;font-size:13px">
+                <div style="display:flex;justify-content:space-between">NDIS Worker Screening Check <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">Working with Children Check (WWCC) <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">Right to Work <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">Police check <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">First Aid and CPR <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">Driver's Licence <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">Vaccinations <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">Worker Orientation Modules <span class="tag tag-accent">Verified</span></div>
+              </div>
+            </div>
+            <div class="card blueprint" style="gap:4px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">This week</div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:26px">$612</div>
+              <div style="font-size:12px;opacity:.65">48 hrs across 6 shifts</div>
+              <button class="btn btn-secondary btn-block" style="margin-top:8px">View payout history</button>
+            </div>
+          </div>
+          <div class="kin-bottomnav">
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>Feed</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>Schedule</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h18v11H7l-4 4V5z"></path></svg>Messages</div>
+            <div class="kin-navicon active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>Profile</div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+  </div>
+
+  <h2 style="margin:0 0 20px">Android</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:64px;align-items:flex-start">
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">01 · Unlock</div>
+      <x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="412px,892px">
+        <div style="min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:24px;background:var(--color-bg);box-sizing:border-box">
+          <div style="text-align:center">
+            <div style="font-family:var(--font-heading);font-weight:600;font-size:30px;letter-spacing:.02em">Ablena Support</div>
+            <div style="font-size:13px;opacity:.6;margin-top:4px">Connecting people. Enabling independence.</div>
+          </div>
+          <div class="blueprint" style="width:132px;height:132px;display:flex;align-items:center;justify-content:center">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#416180" stroke-width="1.5">
+              <path d="M4 8V6a2 2 0 012-2h2"></path><path d="M20 8V6a2 2 0 00-2-2h-2"></path>
+              <path d="M4 16v2a2 2 0 002 2h2"></path><path d="M20 16v2a2 2 0 01-2 2h-2"></path>
+              <circle cx="9" cy="10" r="1"></circle><circle cx="15" cy="10" r="1"></circle>
+              <path d="M9 15c1 1 5 1 6 0"></path>
+            </svg>
+          </div>
+          <div style="font-size:13px;color:#5d5d60">Unlock with Face ID</div>
+          <div style="width:100%;display:flex;flex-direction:column;gap:10px;margin-top:10px">
+            <button class="btn btn-primary btn-block">Continue</button>
+            <button class="btn btn-ghost btn-block">Use passcode instead</button>
+          </div>
+          <a href="#" style="font-size:12px;color:#416180;margin-top:6px">New worker? Get verified →</a>
+        </div>
+      </x-import>
+    </div>
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">02 · Shift feed</div>
+      <x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="412px,892px">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div class="nav" style="border-bottom:1px solid var(--color-divider)">
+            <span class="nav-brand">Ablena Support</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1d1f20" stroke-width="1.5"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.7 21a2 2 0 01-3.4 0"></path></svg>
+          </div>
+          <div style="padding:12px 16px 6px">
+            <div class="seg" style="width:100%">
+              <label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="feed-android" checked="checked"></input>For you</label>
+              <label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="feed-android"></input>Nearby</label>
+              <label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="feed-android"></input>Saved</label>
+            </div>
+          </div>
+          <div style="flex:1;overflow:auto;padding:6px 16px 16px;display:flex;flex-direction:column;gap:12px">
+            <div class="card blueprint elev-sm" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div class="card-kicker">PERSONAL CARE · 2.4KM</div>
+                <span class="tag tag-accent">94% match</span>
+              </div>
+              <div class="card-title">Morning routine with Priya</div>
+              <p class="card-body">Hoist transfer, shower support and breakfast. Priya likes a chatty start to the day.</p>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <span class="tag tag-neutral">Manual handling</span>
+                <span class="tag tag-neutral">Non-verbal comms</span>
+              </div>
+              <div class="card-meta">Tue · 7:00–9:00am · $58.20/hr</div>
+              <button class="btn btn-secondary btn-block">View & apply</button>
+            </div>
+            <div class="card blueprint elev-sm" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div class="card-kicker">COMMUNITY ACCESS · 5.1KM</div>
+                <span class="tag tag-accent">88% match</span>
+              </div>
+              <div class="card-title">Gym session with Tom</div>
+              <p class="card-body">Spotting and encouragement at the local pool — Tom's training for a swim carnival.</p>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <span class="tag tag-neutral">Physical support</span>
+              </div>
+              <div class="card-meta">Wed · 4:00–5:30pm · $52.60/hr</div>
+              <button class="btn btn-secondary btn-block">View & apply</button>
+            </div>
+            <div class="card blueprint elev-sm" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div class="card-kicker">OVERNIGHT · 6.8KM</div>
+                <span class="tag tag-accent">91% match</span>
+              </div>
+              <div class="card-title">Overnight stay with Grace</div>
+              <p class="card-body">Sleepover shift — settle Grace at 9pm, on call, help her get ready for school.</p>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <span class="tag tag-neutral">Overnight</span><span class="tag tag-neutral">Routine care</span>
+              </div>
+              <div class="card-meta">Fri · 9:00pm–7:00am · $41.10/hr</div>
+              <button class="btn btn-secondary btn-block">View & apply</button>
+            </div>
+          </div>
+          <div class="kin-bottomnav">
+            <div class="kin-navicon active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>Feed</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>Schedule</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h18v11H7l-4 4V5z"></path></svg>Messages</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>Profile</div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">03 · Match detail</div>
+      <x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="412px,892px">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div class="nav" style="border-bottom:1px solid var(--color-divider)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d1f20" stroke-width="1.8"><path d="M15 18l-6-6 6-6"></path></svg>
+            <span class="nav-brand" style="margin:0 auto;font-size:15px">Job details</span>
+            <span style="width:16px"></span>
+          </div>
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:16px">
+            <div class="blueprint duotone" style="width:100%;height:170px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <image-slot id="participant-priya-android" shape="rect" placeholder="Photo of Priya"></image-slot>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <h3 style="margin:0">Priya, 34 · Fairfield</h3>
+                <span class="tag tag-accent">94% match</span>
+              </div>
+              <p style="font-size:13px;opacity:.75;margin-top:8px">Priya has cerebral palsy and lives with her sister. She loves gardening podcasts and needs a steady, cheerful hand in the mornings.</p>
+            </div>
+            <div>
+              <h6>Support needed</h6>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <span class="tag tag-outline">Personal care</span><span class="tag tag-outline">Manual handling</span><span class="tag tag-outline">Meal prep</span>
+              </div>
+            </div>
+            <div class="card blueprint" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">You meet every requirement</div>
+              <div style="display:flex;flex-direction:column;gap:6px;font-size:13px">
+                <div style="display:flex;justify-content:space-between">Manual handling cert <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">NDIS Worker Screening <span class="tag tag-accent">Verified</span></div>
+              </div>
+            </div>
+          </div>
+          <div style="background:var(--color-bg);border-top:1px solid var(--color-divider);padding:12px 16px;display:flex;gap:10px;align-items:center">
+            <div style="flex:1">
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:18px">$58.20/hr</div>
+              <div style="font-size:11px;opacity:.6">Tue · 7:00–9:00am</div>
+            </div>
+            <button class="btn btn-secondary">Message</button>
+            <button class="btn btn-primary">Apply</button>
+          </div>
+          <div class="kin-bottomnav">
+            <div class="kin-navicon active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>Feed</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>Schedule</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h18v11H7l-4 4V5z"></path></svg>Messages</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>Profile</div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">04 · Shift check-in</div>
+      <x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="412px,892px">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:16px;box-sizing:border-box">
+            <h3 style="margin:0">Today</h3>
+            <div class="card blueprint" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">7:00 – 9:00AM</div>
+              <div class="card-title">Morning routine with Priya</div>
+              <div class="card-meta">14 Grove St, Fairfield</div>
+              <button class="btn btn-primary btn-block" style="margin-top:6px;display:flex;gap:8px;align-items:center;justify-content:center">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8V6a2 2 0 012-2h2"></path><path d="M20 8V6a2 2 0 00-2-2h-2"></path><path d="M4 16v2a2 2 0 002 2h2"></path><path d="M20 16v2a2 2 0 01-2 2h-2"></path><circle cx="9" cy="10" r="1"></circle><circle cx="15" cy="10" r="1"></circle></svg>
+                Check in with Face ID
+              </button>
+            </div>
+            <div class="field">
+              <label>Shift notes</label>
+              <textarea class="input" placeholder="Priya had a good morning, ate full breakfast..."></textarea>
+            </div>
+            <div>
+              <h6>This week</h6>
+              <div style="display:flex;flex-direction:column;gap:0">
+                <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--color-divider)"><span>Mon · Tom B.</span><span class="tag tag-accent">Completed</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--color-divider)"><span>Sat · Grace L.</span><span class="tag tag-neutral">Upcoming</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="kin-bottomnav">
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>Feed</div>
+            <div class="kin-navicon active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>Schedule</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h18v11H7l-4 4V5z"></path></svg>Messages</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>Profile</div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">05 · Messages</div>
+      <x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="412px,892px">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div class="nav" style="border-bottom:1px solid var(--color-divider)">
+            <span class="nav-brand" style="font-size:15px">Priya M.</span>
+            <span class="tag tag-accent">Verified</span>
+          </div>
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px">
+            <div class="kin-bubble-in">Hi! Looking forward to Tuesday morning.</div>
+            <div class="kin-bubble-out">Me too — I'll bring the podcast list you mentioned.</div>
+            <div class="kin-bubble-in">Perfect. My sister will be home too if you need anything.</div>
+          </div>
+          <div style="display:flex;gap:8px;padding:10px;border-top:1px solid var(--color-divider);align-items:center">
+            <input class="input" placeholder="Message Priya…" style="flex:1"></input>
+            <button class="btn btn-primary btn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20l16-8L4 4v6l10 2-10 2z"></path></svg></button>
+          </div>
+          <div class="kin-bottomnav">
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>Feed</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>Schedule</div>
+            <div class="kin-navicon active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h18v11H7l-4 4V5z"></path></svg>Messages</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>Profile</div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">06 · Profile & earnings</div>
+      <x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" hint-size="412px,892px">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:16px;box-sizing:border-box">
+            <div style="display:flex;gap:14px;align-items:center">
+              <div class="blueprint duotone" style="width:72px;height:72px;flex:none">
+                <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                <image-slot id="worker-avatar-android" shape="rect" placeholder="Your photo"></image-slot>
+              </div>
+              <div>
+                <div style="font-family:var(--font-heading);font-weight:600;font-size:19px">Amara N.</div>
+                <div style="font-size:12px;opacity:.65">4.98 ★ · 132 reviews</div>
+                <span class="tag tag-accent" style="margin-top:4px;display:inline-block">Verified support worker</span>
+              </div>
+            </div>
+            <div class="card blueprint" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">Verification status</div>
+              <div style="display:flex;flex-direction:column;gap:6px;font-size:13px">
+                <div style="display:flex;justify-content:space-between">NDIS Worker Screening Check <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">Working with Children Check (WWCC) <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">Right to Work <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">Police check <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">First Aid and CPR <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">Driver's Licence <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">Vaccinations <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">Worker Orientation Modules <span class="tag tag-accent">Verified</span></div>
+              </div>
+            </div>
+            <div class="card blueprint" style="gap:4px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">This week</div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:26px">$612</div>
+              <div style="font-size:12px;opacity:.65">48 hrs across 6 shifts</div>
+              <button class="btn btn-secondary btn-block" style="margin-top:8px">View payout history</button>
+            </div>
+          </div>
+          <div class="kin-bottomnav">
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>Feed</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>Schedule</div>
+            <div class="kin-navicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h18v11H7l-4 4V5z"></path></svg>Messages</div>
+            <div class="kin-navicon active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>Profile</div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+  </div>
+
+  <h2 style="margin:56px 0 4px">New screens — iOS</h2>
+  <p style="font-size:13px;opacity:.6;margin:0 0 20px">Fills the remaining flows: getting verified, booking, getting paid, reputation, and the participant side. Same layout mirrors onto Android on request.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:64px;align-items:flex-start">
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">07 · Get verified</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div class="nav" style="border-bottom:1px solid var(--color-divider);padding-top:54px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d1f20" stroke-width="1.8"><path d="M15 18l-6-6 6-6"></path></svg>
+            <span class="nav-brand" style="margin:0 auto;font-size:15px">Get verified</span>
+            <span style="width:16px"></span>
+          </div>
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:14px">
+            <p style="font-size:13px;opacity:.7;margin:0">Complete these checks once — clients see your progress live, so half-finished isn't invisible.</p>
+            <div style="display:flex;flex-direction:column;gap:0">
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:10px 0;border-bottom:1px solid var(--color-divider)">Photo ID <span class="tag tag-accent">Verified</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:10px 0;border-bottom:1px solid var(--color-divider)">NDIS Worker Screening Check <span class="tag tag-accent">Verified</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:10px 0;border-bottom:1px solid var(--color-divider)">Working with Children Check <span class="tag tag-neutral">In review</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:10px 0;border-bottom:1px solid var(--color-divider)">Police check <span class="tag tag-outline">Upload needed</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:10px 0;border-bottom:1px solid var(--color-divider)">First Aid and CPR <span class="tag tag-outline">Upload needed</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:10px 0;border-bottom:1px solid var(--color-divider)">Driver's Licence <span class="tag tag-outline">Upload needed</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:10px 0;border-bottom:1px solid var(--color-divider)">Vaccinations <span class="tag tag-outline">Upload needed</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:10px 0">Worker Orientation Modules <span class="tag tag-outline">Not started</span></div>
+            </div>
+            <button class="btn btn-primary btn-block">Upload next document</button>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">08 · Booking & calendar</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div class="nav" style="border-bottom:1px solid var(--color-divider);padding-top:54px">
+            <span class="nav-brand">Schedule</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1d1f20" stroke-width="1.5"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>
+          </div>
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:14px">
+            <div class="seg" style="width:100%">
+              <label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="cal" checked="checked"></input>Week</label>
+              <label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="cal"></input>Month</label>
+            </div>
+            <div class="card blueprint elev-sm" style="gap:6px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">TUE 25 AUG · 7:00–9:00AM</div>
+              <div class="card-title">Morning routine with Priya</div>
+              <span class="tag tag-accent" style="align-self:flex-start">Confirmed</span>
+            </div>
+            <div class="card blueprint elev-sm" style="gap:6px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">WED 26 AUG · 4:00–5:30PM</div>
+              <div class="card-title">Gym session with Tom</div>
+              <span class="tag tag-neutral" style="align-self:flex-start">Awaiting response</span>
+            </div>
+            <div class="card blueprint elev-sm" style="gap:6px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">FRI 28 AUG · 9:00PM–7:00AM</div>
+              <div class="card-title">Overnight stay with Grace</div>
+              <span class="tag tag-accent" style="align-self:flex-start">Confirmed</span>
+            </div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">09 · Payments & invoicing</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div class="nav" style="border-bottom:1px solid var(--color-divider);padding-top:54px">
+            <span class="nav-brand">Payments</span>
+          </div>
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:14px">
+            <div class="card blueprint" style="gap:4px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">Next payout · Fri</div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:30px">$612.00</div>
+              <div style="font-size:12px;opacity:.65">Rate breakdown shown per shift — no hidden platform cut</div>
+            </div>
+            <div>
+              <h6>This week's shifts</h6>
+              <div style="display:flex;flex-direction:column;gap:0">
+                <div style="display:flex;justify-content:space-between;font-size:13px;padding:9px 0;border-bottom:1px solid var(--color-divider)"><span>Mon · Tom B. · 1.5hr</span><span>$78.90</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;padding:9px 0;border-bottom:1px solid var(--color-divider)"><span>Tue · Priya M. · 2hr</span><span>$116.40</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;padding:9px 0;border-bottom:1px solid var(--color-divider)"><span>Fri · Grace L. · 10hr</span><span>$411.00</span></div>
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-block">Download tax invoice</button>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">10 · Ratings & reviews</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div class="nav" style="border-bottom:1px solid var(--color-divider);padding-top:54px">
+            <span class="nav-brand">Reviews</span>
+          </div>
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:14px">
+            <div style="text-align:center">
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:34px">4.98</div>
+              <div style="font-size:12px;opacity:.65">132 reviews · 98% would rebook</div>
+            </div>
+            <div class="card blueprint" style="gap:6px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">Priya M. · ★★★★★</div>
+              <p class="card-body">Amara is punctual, gentle and remembers small things — like which podcast I'm up to.</p>
+            </div>
+            <div class="card blueprint" style="gap:6px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">Tom B. · ★★★★★</div>
+              <p class="card-body">Great energy at the gym, always on time, communicates clearly beforehand.</p>
+            </div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <div class="kin-frame-wrap">
+      <div class="kin-label">11 · Participant — browse workers</div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div class="nav" style="border-bottom:1px solid var(--color-divider);padding-top:54px">
+            <span class="nav-brand">Find a worker</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1d1f20" stroke-width="1.5"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+          </div>
+          <div style="flex:1;overflow:auto;padding:12px 16px 16px;display:flex;flex-direction:column;gap:12px">
+            <div class="card blueprint elev-sm" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div class="card-kicker">PERSONAL CARE · AVAILABLE TUE</div>
+                <span class="tag tag-accent">96% match</span>
+              </div>
+              <div class="card-title">Amara N.</div>
+              <p class="card-body">4.98 ★ · 132 reviews · Manual handling, non-verbal comms</p>
+              <button class="btn btn-secondary btn-block">View profile</button>
+            </div>
+            <div class="card blueprint elev-sm" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div class="card-kicker">COMMUNITY ACCESS · AVAILABLE WED</div>
+                <span class="tag tag-accent">90% match</span>
+              </div>
+              <div class="card-title">Josh R.</div>
+              <p class="card-body">4.9 ★ · 61 reviews · Physical support, driving</p>
+              <button class="btn btn-secondary btn-block">View profile</button>
+            </div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+  </div>
+
+</x-dc>
+</body>
+</html>

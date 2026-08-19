@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/industry-fd527d09-0ff1-4999-9b53-780b24cf0880/styles.css">
+<script src="_ds/industry-fd527d09-0ff1-4999-9b53-780b24cf0880/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0}
+.kin-bottomnav{display:flex;justify-content:space-around;align-items:center;padding:12px 8px 10px;border-top:1px solid var(--color-divider);background:var(--color-bg);box-shadow:var(--shadow-sm)}
+.kin-navicon{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;color:var(--color-neutral-600);font-family:var(--font-heading);font-weight:700;text-transform:uppercase;letter-spacing:.03em;cursor:pointer}
+.kin-navicon.active{color:var(--color-accent-800)}
+.kin-navicon svg{width:21px;height:21px}
+.kin-bubble-in{align-self:flex-start;max-width:78%;border:1px solid var(--color-divider);padding:8px 12px;font-size:13px;border-radius:0}
+.kin-bubble-out{align-self:flex-end;max-width:78%;background:var(--color-accent-100);color:var(--color-accent-900);padding:8px 12px;font-size:13px;border-radius:0}
+.kin-tap{cursor:pointer}
+</style>
+</helmet>
+<div style="background:var(--color-bg);min-height:100vh;padding:56px;font-family:var(--font-body);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:20px">
+  <div style="max-width:560px;text-align:center">
+    <span class="tag tag-accent">CLICKABLE PROTOTYPE</span>
+    <h1 style="margin:14px 0 8px">Ablena Support</h1>
+    <p style="font-size:14px;opacity:.75;line-height:1.6">Tap through the real flow: unlock → browse shifts → view a match → apply → check the new booking → message → profile. Bottom tabs work everywhere.</p>
+  </div>
+
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+    <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+
+      <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+        <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:24px;background:var(--color-bg);box-sizing:border-box">
+          <div style="text-align:center">
+            <div style="font-family:var(--font-heading);font-weight:600;font-size:30px;letter-spacing:.02em">Ablena Support</div>
+            <div style="font-size:13px;opacity:.6;margin-top:4px">Connecting people. Enabling independence.</div>
+          </div>
+          <div class="blueprint" style="width:132px;height:132px;display:flex;align-items:center;justify-content:center">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#416180" stroke-width="1.5"><path d="M4 8V6a2 2 0 012-2h2"></path><path d="M20 8V6a2 2 0 00-2-2h-2"></path><path d="M4 16v2a2 2 0 002 2h2"></path><path d="M20 16v2a2 2 0 01-2 2h-2"></path><circle cx="9" cy="10" r="1"></circle><circle cx="15" cy="10" r="1"></circle><path d="M9 15c1 1 5 1 6 0"></path></svg>
+          </div>
+          <div style="font-size:13px;color:#5d5d60">Unlock with Face ID</div>
+          <div style="width:100%;display:flex;flex-direction:column;gap:10px;margin-top:10px">
+            <button class="btn btn-primary btn-block" onClick="{{ goFeed }}">Continue</button>
+            <button class="btn btn-ghost btn-block" onClick="{{ goFeed }}">Use passcode instead</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isFeed }}" hint-placeholder-val="{{ false }}">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div class="nav" style="border-bottom:1px solid var(--color-divider);padding-top:54px">
+            <span class="nav-brand">Ablena Support</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1d1f20" stroke-width="1.5"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.7 21a2 2 0 01-3.4 0"></path></svg>
+          </div>
+          <div style="flex:1;overflow:auto;padding:12px 16px 16px;display:flex;flex-direction:column;gap:12px">
+            <div class="card blueprint elev-sm kin-tap" style="gap:8px" onClick="{{ goDetail }}">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div class="card-kicker">PERSONAL CARE · 2.4KM</div>
+                <span class="tag tag-accent">94% match</span>
+              </div>
+              <div class="card-title">Morning routine with Priya</div>
+              <p class="card-body">Hoist transfer, shower support and breakfast. Priya likes a chatty start to the day.</p>
+              <div class="card-meta">Tue · 7:00–9:00am · $58.20/hr</div>
+              <button class="btn btn-secondary btn-block" onClick="{{ goDetail }}">View & apply</button>
+            </div>
+            <div class="card blueprint elev-sm" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div class="card-kicker">COMMUNITY ACCESS · 5.1KM</div>
+                <span class="tag tag-accent">88% match</span>
+              </div>
+              <div class="card-title">Gym session with Tom</div>
+              <p class="card-body">Spotting and encouragement at the local pool.</p>
+              <div class="card-meta">Wed · 4:00–5:30pm · $52.60/hr</div>
+              <button class="btn btn-secondary btn-block">View & apply</button>
+            </div>
+          </div>
+          <div class="kin-bottomnav">
+            <div class="{{ navFeedClass }}" onClick="{{ goFeed }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>Feed</div>
+            <div class="{{ navScheduleClass }}" onClick="{{ goSchedule }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>Schedule</div>
+            <div class="{{ navMessagesClass }}" onClick="{{ goMessages }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h18v11H7l-4 4V5z"></path></svg>Messages</div>
+            <div class="{{ navProfileClass }}" onClick="{{ goProfile }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>Profile</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div class="nav" style="border-bottom:1px solid var(--color-divider);padding-top:54px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d1f20" stroke-width="1.8" class="kin-tap" onClick="{{ goFeed }}"><path d="M15 18l-6-6 6-6"></path></svg>
+            <span class="nav-brand" style="margin:0 auto;font-size:15px">Job details</span>
+            <span style="width:16px"></span>
+          </div>
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:16px">
+            <div class="blueprint duotone" style="width:100%;height:170px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <image-slot id="proto-priya" shape="rect" placeholder="Photo of Priya"></image-slot>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <h3 style="margin:0">Priya, 34 · Fairfield</h3>
+                <span class="tag tag-accent">94% match</span>
+              </div>
+              <p style="font-size:13px;opacity:.75;margin-top:8px">Priya has cerebral palsy and lives with her sister. She loves gardening podcasts and needs a steady, cheerful hand in the mornings.</p>
+            </div>
+            <div class="card blueprint" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">You meet every requirement</div>
+              <div style="display:flex;flex-direction:column;gap:6px;font-size:13px">
+                <div style="display:flex;justify-content:space-between">Manual handling cert <span class="tag tag-accent">Verified</span></div>
+                <div style="display:flex;justify-content:space-between">NDIS Worker Screening <span class="tag tag-accent">Verified</span></div>
+              </div>
+            </div>
+          </div>
+          <div style="background:var(--color-bg);border-top:1px solid var(--color-divider);padding:12px 16px;display:flex;gap:10px;align-items:center">
+            <div style="flex:1">
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:18px">$58.20/hr</div>
+              <div style="font-size:11px;opacity:.6">Tue · 7:00–9:00am</div>
+            </div>
+            <button class="btn btn-secondary" onClick="{{ goMessages }}">Message</button>
+            <button class="btn btn-primary" onClick="{{ goApplied }}">Apply</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isApplied }}" hint-placeholder-val="{{ false }}">
+        <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:32px;text-align:center;box-sizing:border-box">
+          <div class="blueprint" style="width:96px;height:96px;display:flex;align-items:center;justify-content:center">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#416180" stroke-width="1.5"><path d="M5 12l5 5L20 7"></path></svg>
+          </div>
+          <h3 style="margin:0">Application sent</h3>
+          <p style="font-size:13px;opacity:.7;margin:0">Priya will be notified. You'll hear back within 24 hours — check Schedule once confirmed.</p>
+          <button class="btn btn-primary btn-block" onClick="{{ goSchedule }}">Go to Schedule</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isSchedule }}" hint-placeholder-val="{{ false }}">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div style="flex:1;overflow:auto;padding:64px 16px 16px;display:flex;flex-direction:column;gap:16px;box-sizing:border-box">
+            <h3 style="margin:0">Today</h3>
+            <div class="card blueprint" style="gap:8px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">7:00 – 9:00AM</div>
+              <div class="card-title">Morning routine with Priya</div>
+              <div class="card-meta">14 Grove St, Fairfield</div>
+              <button class="btn btn-primary btn-block" style="margin-top:6px;display:flex;gap:8px;align-items:center;justify-content:center">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8V6a2 2 0 012-2h2"></path><path d="M20 8V6a2 2 0 00-2-2h-2"></path><path d="M4 16v2a2 2 0 002 2h2"></path><path d="M20 16v2a2 2 0 01-2 2h-2"></path><circle cx="9" cy="10" r="1"></circle><circle cx="15" cy="10" r="1"></circle></svg>
+                Check in with Face ID
+              </button>
+            </div>
+          </div>
+          <div class="kin-bottomnav">
+            <div class="{{ navFeedClass }}" onClick="{{ goFeed }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>Feed</div>
+            <div class="{{ navScheduleClass }}" onClick="{{ goSchedule }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>Schedule</div>
+            <div class="{{ navMessagesClass }}" onClick="{{ goMessages }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h18v11H7l-4 4V5z"></path></svg>Messages</div>
+            <div class="{{ navProfileClass }}" onClick="{{ goProfile }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>Profile</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isMessages }}" hint-placeholder-val="{{ false }}">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div class="nav" style="border-bottom:1px solid var(--color-divider);padding-top:54px">
+            <span class="nav-brand" style="font-size:15px">Priya M.</span>
+            <span class="tag tag-accent">Verified</span>
+          </div>
+          <div style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px">
+            <div class="kin-bubble-in">Hi! Looking forward to Tuesday morning.</div>
+            <div class="kin-bubble-out">Me too — I'll bring the podcast list you mentioned.</div>
+          </div>
+          <div style="display:flex;gap:8px;padding:10px;border-top:1px solid var(--color-divider);align-items:center">
+            <input class="input" placeholder="Message Priya…" style="flex:1"></input>
+            <button class="btn btn-primary btn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20l16-8L4 4v6l10 2-10 2z"></path></svg></button>
+          </div>
+          <div class="kin-bottomnav">
+            <div class="{{ navFeedClass }}" onClick="{{ goFeed }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>Feed</div>
+            <div class="{{ navScheduleClass }}" onClick="{{ goSchedule }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>Schedule</div>
+            <div class="{{ navMessagesClass }}" onClick="{{ goMessages }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h18v11H7l-4 4V5z"></path></svg>Messages</div>
+            <div class="{{ navProfileClass }}" onClick="{{ goProfile }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>Profile</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+        <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg)">
+          <div style="flex:1;overflow:auto;padding:64px 16px 16px;display:flex;flex-direction:column;gap:16px;box-sizing:border-box">
+            <div style="display:flex;gap:14px;align-items:center">
+              <div class="blueprint duotone" style="width:72px;height:72px;flex:none">
+                <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                <image-slot id="proto-avatar" shape="rect" placeholder="Your photo"></image-slot>
+              </div>
+              <div>
+                <div style="font-family:var(--font-heading);font-weight:600;font-size:19px">Amara N.</div>
+                <div style="font-size:12px;opacity:.65">4.98 ★ · 132 reviews</div>
+                <span class="tag tag-accent" style="margin-top:4px;display:inline-block">Verified support worker</span>
+              </div>
+            </div>
+            <div class="card blueprint" style="gap:4px">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div class="card-kicker">This week</div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:26px">$612</div>
+              <div style="font-size:12px;opacity:.65">48 hrs across 6 shifts</div>
+            </div>
+            <button class="btn btn-ghost btn-block" onClick="{{ goLogin }}">Log out</button>
+          </div>
+          <div class="kin-bottomnav">
+            <div class="{{ navFeedClass }}" onClick="{{ goFeed }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>Feed</div>
+            <div class="{{ navScheduleClass }}" onClick="{{ goSchedule }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="17"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>Schedule</div>
+            <div class="{{ navMessagesClass }}" onClick="{{ goMessages }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h18v11H7l-4 4V5z"></path></svg>Messages</div>
+            <div class="{{ navProfileClass }}" onClick="{{ goProfile }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>Profile</div>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+  </x-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { screen: 'login' };
+  renderVals() {
+    const s = this.state.screen;
+    const go = (screen) => () => this.setState({ screen });
+    const navClass = (name) => 'kin-navicon' + (s === name ? ' active' : '');
+    return {
+      isLogin: s === 'login',
+      isFeed: s === 'feed',
+      isDetail: s === 'detail',
+      isApplied: s === 'applied',
+      isSchedule: s === 'schedule',
+      isMessages: s === 'messages',
+      isProfile: s === 'profile',
+      navFeedClass: navClass('feed'),
+      navScheduleClass: navClass('schedule'),
+      navMessagesClass: navClass('messages'),
+      navProfileClass: navClass('profile'),
+      goLogin: go('login'),
+      goFeed: go('feed'),
+      goDetail: go('detail'),
+      goApplied: go('applied'),
+      goSchedule: go('schedule'),
+      goMessages: go('messages'),
+      goProfile: go('profile'),
+    };
+  }
+}
+</script>
+</body>
+</html>
