@@ -7,6 +7,7 @@ import { colors, space, type } from '../../theme';
 import { Button } from '../../components/Button';
 import { BlueprintFrame } from '../../components/BlueprintFrame';
 import { FaceIdIcon } from '../../icons';
+import { authenticateWithBiometrics } from '../../lib/biometrics';
 import type { RootStackParamList } from '../../navigation/types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Unlock'>;
@@ -14,7 +15,9 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Unlock'>;
 export function UnlockScreen({ navigation }: Props) {
   const insets = useSafeAreaInsets();
   const [scanning, setScanning] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const pulse = useRef(new Animated.Value(1)).current;
+  const loopRef = useRef<Animated.CompositeAnimation | null>(null);
 
   const goToMain = () => {
     navigation.dispatch(
@@ -22,16 +25,29 @@ export function UnlockScreen({ navigation }: Props) {
     );
   };
 
-  const scanThenEnter = () => {
+  const scanThenEnter = async () => {
     if (scanning) return;
+    setError(null);
     setScanning(true);
-    Animated.loop(
+    loopRef.current = Animated.loop(
       Animated.sequence([
         Animated.timing(pulse, { toValue: 0.35, duration: 380, useNativeDriver: true }),
         Animated.timing(pulse, { toValue: 1, duration: 380, useNativeDriver: true }),
       ])
-    ).start();
-    setTimeout(goToMain, 900);
+    );
+    loopRef.current.start();
+
+    const result = await authenticateWithBiometrics('Unlock Ablena Support');
+
+    loopRef.current?.stop();
+    pulse.setValue(1);
+    setScanning(false);
+
+    if (result.success) {
+      goToMain();
+    } else if (result.error) {
+      setError(result.error);
+    }
   };
 
   return (
@@ -49,6 +65,7 @@ export function UnlockScreen({ navigation }: Props) {
         </BlueprintFrame>
 
         <Text style={styles.hint}>{scanning ? 'Scanning…' : 'Unlock with Face ID'}</Text>
+        {error ? <Text style={styles.error}>{error}</Text> : null}
 
         <View style={styles.actions}>
           <Button title="Continue" variant="primary" block loading={scanning} onPress={scanThenEnter} />
@@ -66,5 +83,6 @@ const styles = StyleSheet.create({
   tagline: { fontSize: 13, opacity: 0.6, marginTop: 4, color: colors.text },
   idBox: { width: 132, height: 132, alignItems: 'center', justifyContent: 'center' },
   hint: { fontSize: 13, color: '#5d5d60' },
+  error: { fontSize: 12, color: '#b3261e', marginTop: -8, textAlign: 'center' },
   actions: { width: '100%', gap: 10, marginTop: 10 },
 });

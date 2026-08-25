@@ -8,6 +8,7 @@ import { Button } from '../../components/Button';
 import { TextField } from '../../components/TextField';
 import { Tag } from '../../components/Tag';
 import { FaceIdIcon } from '../../icons';
+import { authenticateWithBiometrics } from '../../lib/biometrics';
 import { thisWeek, todayShift } from '../../data/mock';
 import type { ScheduleStackParamList } from '../../navigation/types';
 
@@ -17,22 +18,34 @@ export function ShiftCheckInScreen(_props: Props) {
   const insets = useSafeAreaInsets();
   const [checkingIn, setCheckingIn] = useState(false);
   const [checkedIn, setCheckedIn] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [notes, setNotes] = useState('');
   const pulse = useRef(new Animated.Value(1)).current;
+  const loopRef = useRef<Animated.CompositeAnimation | null>(null);
 
-  const checkIn = () => {
+  const checkIn = async () => {
     if (checkingIn || checkedIn) return;
+    setError(null);
     setCheckingIn(true);
-    Animated.loop(
+    loopRef.current = Animated.loop(
       Animated.sequence([
         Animated.timing(pulse, { toValue: 0.35, duration: 350, useNativeDriver: true }),
         Animated.timing(pulse, { toValue: 1, duration: 350, useNativeDriver: true }),
       ])
-    ).start();
-    setTimeout(() => {
-      setCheckingIn(false);
+    );
+    loopRef.current.start();
+
+    const result = await authenticateWithBiometrics('Confirm shift check-in');
+
+    loopRef.current?.stop();
+    pulse.setValue(1);
+    setCheckingIn(false);
+
+    if (result.success) {
       setCheckedIn(true);
-    }, 900);
+    } else if (result.error) {
+      setError(result.error);
+    }
   };
 
   return (
@@ -63,6 +76,7 @@ export function ShiftCheckInScreen(_props: Props) {
             title={checkingIn ? 'Scanning…' : 'Check in with Face ID'}
           />
         )}
+        {error ? <Text style={styles.error}>{error}</Text> : null}
       </Card>
 
       <TextField
@@ -93,4 +107,5 @@ const styles = StyleSheet.create({
   body: { padding: space[4], gap: space[4] },
   weekRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8 },
   weekDivider: { borderBottomWidth: 1, borderBottomColor: colors.divider },
+  error: { fontSize: 12, color: '#b3261e', marginTop: 4 },
 });

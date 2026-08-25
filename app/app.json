@@ -20,6 +20,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Ablena Support uses Face ID to unlock the app and confirm shift check-ins."
+        }
+      ]
+    ]
   }
 }
