@@ -1,6 +1,13 @@
 -- Ablena Support — core-loop schema.
 -- Run this once in the Supabase SQL editor (Project > SQL Editor > New query).
 -- Safe to re-run: every statement is idempotent (create-if-not-exists / drop-then-create).
+--
+-- Written for a project created with "Automatically expose new tables"
+-- turned OFF (Supabase's own recommended setting) — so every table below
+-- gets an explicit grant to `authenticated`. Without a grant, PostgREST
+-- can't reach a table at all regardless of RLS; RLS is what then narrows
+-- it down to the signed-in user's own rows.
+grant usage on schema public to authenticated;
 
 -- ── profiles ────────────────────────────────────────────────────────────
 -- One row per signed-up worker, keyed to auth.users. Created by the app on
@@ -25,6 +32,8 @@ drop policy if exists "profiles: update own" on public.profiles;
 create policy "profiles: update own" on public.profiles
   for update using (auth.uid() = id);
 
+grant select, insert, update on public.profiles to authenticated;
+
 -- ── participants ────────────────────────────────────────────────────────
 -- Reference data (the disability-support clients). Seeded via seed.sql;
 -- not writable from the app in this pass.
@@ -43,6 +52,8 @@ alter table public.participants enable row level security;
 drop policy if exists "participants: select all" on public.participants;
 create policy "participants: select all" on public.participants
   for select using (auth.role() = 'authenticated');
+
+grant select on public.participants to authenticated;
 
 -- ── shifts ──────────────────────────────────────────────────────────────
 -- match_score is seeded/static in this pass, not computed by a real
@@ -69,6 +80,8 @@ drop policy if exists "shifts: select all" on public.shifts;
 create policy "shifts: select all" on public.shifts
   for select using (auth.role() = 'authenticated');
 
+grant select on public.shifts to authenticated;
+
 -- ── applications ────────────────────────────────────────────────────────
 -- Backs both "Apply" (Match Detail) and "my bookings" (Schedule).
 create table if not exists public.applications (
@@ -89,3 +102,5 @@ create policy "applications: select own" on public.applications
 drop policy if exists "applications: insert own" on public.applications;
 create policy "applications: insert own" on public.applications
   for insert with check (auth.uid() = worker_id);
+
+grant select, insert on public.applications to authenticated;
