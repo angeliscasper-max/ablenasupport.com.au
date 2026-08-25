@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Animated, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CommonActions } from '@react-navigation/native';
@@ -54,10 +54,6 @@ export function UnlockScreen({ navigation }: Props) {
           <Button title="Continue" variant="primary" block loading={scanning} onPress={scanThenEnter} />
           <Button title="Use passcode instead" variant="ghost" block onPress={() => navigation.navigate('Passcode')} />
         </View>
-
-        <Pressable onPress={() => navigation.navigate('OnboardingVerify')}>
-          <Text style={styles.link}>New worker? Get verified →</Text>
-        </Pressable>
       </View>
     </View>
   );
@@ -71,5 +67,4 @@ const styles = StyleSheet.create({
   idBox: { width: 132, height: 132, alignItems: 'center', justifyContent: 'center' },
   hint: { fontSize: 13, color: '#5d5d60' },
   actions: { width: '100%', gap: 10, marginTop: 10 },
-  link: { fontSize: 12, color: colors.accent700, marginTop: 6 },
 });

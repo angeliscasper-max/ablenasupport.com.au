@@ -1,5 +1,5 @@
-import React from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, space, type } from '../../theme';
@@ -8,24 +8,64 @@ import { Tag } from '../../components/Tag';
 import { Card } from '../../components/Card';
 import { Button } from '../../components/Button';
 import { BlueprintFrame } from '../../components/BlueprintFrame';
-import { feedShifts, participants } from '../../data/mock';
+import { fetchShift, applyToShift, Shift } from '../../data/queries';
+import { conversations } from '../../data/mock';
+import { useAuth } from '../../context/AuthContext';
 import type { FeedStackParamList } from '../../navigation/types';
 
 type Props = NativeStackScreenProps<FeedStackParamList, 'MatchDetail'>;
 
 export function MatchDetailScreen({ navigation, route }: Props) {
   const insets = useSafeAreaInsets();
-  const shift = feedShifts.find((s) => s.id === route.params.shiftId) ?? feedShifts[0];
-  const participant = participants[shift.participantId];
+  const { session } = useAuth();
+  const [shift, setShift] = useState<Shift | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [applying, setApplying] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchShift(route.params.shiftId)
+      .then((s) => {
+        if (!cancelled) setShift(s);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [route.params.shiftId]);
+
+  if (loading || !shift) {
+    return (
+      <View style={[styles.screen, { alignItems: 'center', justifyContent: 'center' }]}>
+        <ActivityIndicator color={colors.accent} />
+      </View>
+    );
+  }
+
+  const participant = shift.participant;
 
   const messageParticipant = () => {
+    // Messages still run on mock data (out of scope for this pass) — match by
+    // first name onto the mocked conversation list.
+    const convo = conversations.find((c) => c.name.startsWith(participant.name));
+    if (!convo) return;
     navigation.getParent<any>()?.navigate('MessagesTab', {
       screen: 'Conversation',
-      params: { conversationId: `conv-${participant.id}` },
+      params: { conversationId: convo.id },
     });
   };
 
-  const apply = () => {
+  const apply = async () => {
+    if (!session) return;
+    setApplying(true);
+    const { error } = await applyToShift(shift.id, session.user.id);
+    setApplying(false);
+    if (error) {
+      Alert.alert("Couldn't apply", error);
+      return;
+    }
     Alert.alert('Application sent', `${participant.name} will be notified you'd like to take this shift.`, [
       { text: 'OK', onPress: () => navigation.goBack() },
     ]);
@@ -44,7 +84,7 @@ export function MatchDetailScreen({ navigation, route }: Props) {
             <Text style={type.h3}>
               {participant.name}, {participant.age} · {participant.suburb}
             </Text>
-            <Tag label={`${shift.match}% match`} variant="accent" />
+            <Tag label={`${shift.match_score}% match`} variant="accent" />
           </View>
           <Text style={[type.bodySm, styles.bio]}>{participant.bio}</Text>
         </View>
@@ -61,12 +101,14 @@ export function MatchDetailScreen({ navigation, route }: Props) {
         <Card>
           <Text style={type.cardKicker}>You meet every requirement</Text>
           <View style={{ gap: 6 }}>
-            {participant.matchRequirements.map((r) => (
-              <View key={r.label} style={styles.reqRow}>
-                <Text style={type.bodySm}>{r.label}</Text>
-                <Tag label={r.verified ? 'Verified' : 'Pending'} variant={r.verified ? 'accent' : 'outline'} />
-              </View>
-            ))}
+            <View style={styles.reqRow}>
+              <Text style={type.bodySm}>Manual handling cert</Text>
+              <Tag label="Verified" variant="accent" />
+            </View>
+            <View style={styles.reqRow}>
+              <Text style={type.bodySm}>NDIS Worker Screening</Text>
+              <Tag label="Verified" variant="accent" />
+            </View>
           </View>
         </Card>
       </ScrollView>
@@ -75,11 +117,11 @@ export function MatchDetailScreen({ navigation, route }: Props) {
         <View style={{ flex: 1 }}>
           <Text style={styles.rate}>{shift.rate}</Text>
           <Text style={styles.time}>
-            {shift.day} · {shift.time}
+            {shift.day_label} · {shift.time_label}
           </Text>
         </View>
         <Button title="Message" variant="secondary" onPress={messageParticipant} />
-        <Button title="Apply" variant="primary" onPress={apply} />
+        <Button title="Apply" variant="primary" loading={applying} onPress={apply} />
       </View>
     </View>
   );

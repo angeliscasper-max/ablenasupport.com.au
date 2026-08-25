@@ -9,12 +9,14 @@ import { Button } from '../../components/Button';
 import { BlueprintFrame } from '../../components/BlueprintFrame';
 import { VerificationRow } from '../../components/VerificationRow';
 import { verificationChecklist, worker } from '../../data/mock';
+import { useAuth } from '../../context/AuthContext';
 import type { ProfileStackParamList } from '../../navigation/types';
 
 type Props = NativeStackScreenProps<ProfileStackParamList, 'Profile'>;
 
 export function ProfileScreen({ navigation }: Props) {
   const insets = useSafeAreaInsets();
+  const { signOut } = useAuth();
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={[styles.body, { paddingTop: insets.top + 24 }]}>
@@ -56,6 +58,8 @@ export function ProfileScreen({ navigation }: Props) {
       <Pressable onPress={() => navigation.navigate('BrowseWorkers')}>
         <Text style={styles.previewLink}>Preview: participant view →</Text>
       </Pressable>
+
+      <Button title="Sign out" variant="secondary" block onPress={signOut} />
     </ScrollView>
   );
 }

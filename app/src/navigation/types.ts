@@ -1,7 +1,6 @@
 export type RootStackParamList = {
   Unlock: undefined;
   Passcode: undefined;
-  OnboardingVerify: undefined;
   Main: undefined;
 };
 

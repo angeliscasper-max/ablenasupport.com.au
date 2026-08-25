@@ -10,6 +10,7 @@ import {
   BarlowCondensed_600SemiBold,
 } from '@expo-google-fonts/barlow-condensed';
 import { RootNavigator } from './src/navigation/RootNavigator';
+import { AuthProvider } from './src/context/AuthContext';
 import { colors } from './src/theme';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -45,9 +46,11 @@ export default function App() {
     <SafeAreaProvider onLayout={onLayout}>
       <View style={{ flex: 1, backgroundColor: colors.bg }}>
         <StatusBar style="dark" />
-        <NavigationContainer theme={navTheme}>
-          <RootNavigator />
-        </NavigationContainer>
+        <AuthProvider>
+          <NavigationContainer theme={navTheme}>
+            <RootNavigator />
+          </NavigationContainer>
+        </AuthProvider>
       </View>
     </SafeAreaProvider>
   );
