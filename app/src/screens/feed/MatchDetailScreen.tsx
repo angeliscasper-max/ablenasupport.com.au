@@ -82,9 +82,10 @@ export function MatchDetailScreen({ navigation, route }: Props) {
         <View>
           <View style={styles.nameRow}>
             <Text style={type.h3}>
-              {participant.name}, {participant.age} · {participant.suburb}
+              {participant.name}
+              {participant.age != null ? `, ${participant.age}` : ''} · {participant.suburb}
             </Text>
-            <Tag label={`${shift.match_score}% match`} variant="accent" />
+            {shift.match_score != null && <Tag label={`${shift.match_score}% match`} variant="accent" />}
           </View>
           <Text style={[type.bodySm, styles.bio]}>{participant.bio}</Text>
         </View>

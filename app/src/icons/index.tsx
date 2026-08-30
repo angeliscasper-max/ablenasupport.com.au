@@ -54,6 +54,14 @@ export function SearchIcon({ size = 20, color = '#1d1f20', strokeWidth = 1.5 }: 
   );
 }
 
+export function PlusIcon({ size = 20, color = '#1d1f20', strokeWidth = 1.8 }: IconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={strokeWidth}>
+      <Path d="M12 5v14M5 12h14" strokeLinecap="round" />
+    </Svg>
+  );
+}
+
 export function CalendarIcon({ size = 20, color = '#1d1f20', strokeWidth = 1.5 }: IconProps) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={strokeWidth}>
@@ -94,4 +102,12 @@ export function NavProfileIcon({ size = 21, color = '#7a7a7d', strokeWidth = 1.5
       <Path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6" />
     </Svg>
   );
+}
+
+export function NavRequestsIcon({ size = 21, color = '#7a7a7d', strokeWidth = 1.5 }: IconProps) {
+  return <CalendarIcon size={size} color={color} strokeWidth={strokeWidth} />;
+}
+
+export function NavBrowseIcon({ size = 21, color = '#7a7a7d', strokeWidth = 1.5 }: IconProps) {
+  return <SearchIcon size={size} color={color} strokeWidth={strokeWidth} />;
 }

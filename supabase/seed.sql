@@ -33,3 +33,14 @@ on conflict (id) do update set
   category = excluded.category, distance_km = excluded.distance_km, match_score = excluded.match_score,
   title = excluded.title, description = excluded.description, tags = excluded.tags,
   day_label = excluded.day_label, time_label = excluded.time_label, rate = excluded.rate;
+
+insert into public.worker_profiles (id, name, category, availability, bio, skills, rating, review_count) values
+  ('b1111111-1111-1111-1111-111111111111', 'Amara N.', 'Personal care', 'Available Tue',
+   'Verified support worker with a steady, warm approach to morning routines.',
+   array['Manual handling', 'Non-verbal comms'], 4.98, 132),
+  ('b2222222-2222-2222-2222-222222222222', 'Josh R.', 'Community access', 'Available Wed',
+   'Energetic and reliable — great for gym sessions and getting out into the community.',
+   array['Physical support', 'Driving'], 4.9, 61)
+on conflict (id) do update set
+  name = excluded.name, category = excluded.category, availability = excluded.availability,
+  bio = excluded.bio, skills = excluded.skills, rating = excluded.rating, review_count = excluded.review_count;

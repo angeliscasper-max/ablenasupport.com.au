@@ -11,9 +11,10 @@ export function ShiftCard({ shift, onPress }: { shift: Shift; onPress: () => voi
     <Card elevated>
       <View style={styles.topRow}>
         <Text style={type.cardKicker}>
-          {shift.category.toUpperCase()} · {shift.distance_km}KM
+          {shift.category.toUpperCase()}
+          {shift.distance_km != null ? ` · ${shift.distance_km}KM` : ''}
         </Text>
-        <Tag label={`${shift.match_score}% match`} variant="accent" />
+        {shift.match_score != null && <Tag label={`${shift.match_score}% match`} variant="accent" />}
       </View>
       <Text style={type.cardTitle}>{shift.title}</Text>
       <Text style={type.cardBody}>{shift.description}</Text>

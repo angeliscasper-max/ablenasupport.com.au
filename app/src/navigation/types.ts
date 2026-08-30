@@ -25,6 +25,7 @@ export type ProfileStackParamList = {
   Payments: undefined;
   Reviews: undefined;
   BrowseWorkers: undefined;
+  WorkerDetail: { workerId: string };
 };
 
 export type MainTabParamList = {
@@ -32,4 +33,26 @@ export type MainTabParamList = {
   ScheduleTab: undefined;
   MessagesTab: undefined;
   ProfileTab: undefined;
+};
+
+export type RequestsStackParamList = {
+  MyShifts: undefined;
+  PostShift: undefined;
+  Applicants: { shiftId: string };
+};
+
+export type BrowseStackParamList = {
+  Browse: undefined;
+  WorkerDetail: { workerId: string };
+};
+
+export type ParticipantProfileStackParamList = {
+  ParticipantProfile: undefined;
+};
+
+export type ParticipantTabParamList = {
+  RequestsTab: undefined;
+  BrowseTab: undefined;
+  ParticipantMessagesTab: undefined;
+  ParticipantProfileTab: undefined;
 };

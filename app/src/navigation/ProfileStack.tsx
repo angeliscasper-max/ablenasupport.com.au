@@ -5,6 +5,7 @@ import { GetVerifiedScreen } from '../screens/profile/GetVerifiedScreen';
 import { PaymentsScreen } from '../screens/profile/PaymentsScreen';
 import { ReviewsScreen } from '../screens/profile/ReviewsScreen';
 import { BrowseWorkersScreen } from '../screens/participant/BrowseWorkersScreen';
+import { WorkerDetailScreen } from '../screens/participant/WorkerDetailScreen';
 import type { ProfileStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<ProfileStackParamList>();
@@ -17,6 +18,7 @@ export function ProfileStack() {
       <Stack.Screen name="Payments" component={PaymentsScreen} />
       <Stack.Screen name="Reviews" component={ReviewsScreen} />
       <Stack.Screen name="BrowseWorkers" component={BrowseWorkersScreen} />
+      <Stack.Screen name="WorkerDetail" component={WorkerDetailScreen} />
     </Stack.Navigator>
   );
 }

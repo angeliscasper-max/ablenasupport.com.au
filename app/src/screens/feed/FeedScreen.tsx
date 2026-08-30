@@ -42,7 +42,11 @@ export function FeedScreen({ navigation }: Props) {
 
   const data = useMemo(() => {
     if (tab === 'Saved') return [];
-    if (tab === 'Nearby') return [...shifts].sort((a, b) => a.distance_km - b.distance_km);
+    if (tab === 'Nearby') {
+      // Shifts posted directly by a participant have no distance yet —
+      // push those to the end rather than treating "unknown" as "closest".
+      return [...shifts].sort((a, b) => (a.distance_km ?? Infinity) - (b.distance_km ?? Infinity));
+    }
     return shifts;
   }, [tab, shifts]);
 
