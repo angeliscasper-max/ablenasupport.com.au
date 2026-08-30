@@ -38,6 +38,20 @@ drop policy if exists "profiles: update own" on public.profiles;
 create policy "profiles: update own" on public.profiles
   for update using (auth.uid() = id);
 
+-- A participant needs to see the *name* of a worker who applied to one of
+-- their shifts (Applicants screen) — without this, the embedded profiles
+-- join in that query is silently blocked by RLS and comes back null.
+drop policy if exists "profiles: select for shift owners" on public.profiles;
+create policy "profiles: select for shift owners" on public.profiles
+  for select using (
+    exists (
+      select 1 from public.applications a
+      join public.shifts s on s.id = a.shift_id
+      join public.participants p on p.id = s.participant_id
+      where a.worker_id = profiles.id and p.profile_id = auth.uid()
+    )
+  );
+
 grant select, insert, update on public.profiles to authenticated;
 
 -- ── participants ────────────────────────────────────────────────────────

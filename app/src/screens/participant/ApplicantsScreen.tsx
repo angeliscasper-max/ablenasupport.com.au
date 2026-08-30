@@ -52,7 +52,7 @@ export function ApplicantsScreen({ navigation, route }: Props) {
           }
           renderItem={({ item }) => (
             <Card elevated>
-              <Text style={type.cardTitle}>{item.worker.full_name}</Text>
+              <Text style={type.cardTitle}>{item.worker?.full_name ?? 'A support worker'}</Text>
               <Tag label={item.status === 'confirmed' ? 'Confirmed' : 'Applied'} variant={item.status === 'confirmed' ? 'accent' : 'neutral'} />
               {item.status === 'applied' && (
                 <Button title="Confirm" variant="primary" block loading={confirmingId === item.id} onPress={() => confirm(item.id)} />
