@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { colors, space, type } from '../../theme';
@@ -7,6 +7,7 @@ import { ScreenHeader } from '../../components/ScreenHeader';
 import { TextField } from '../../components/TextField';
 import { Button } from '../../components/Button';
 import { fetchMyParticipant, createShift } from '../../data/queries';
+import { notify } from '../../lib/notify';
 import { useAuth } from '../../context/AuthContext';
 import type { RequestsStackParamList } from '../../navigation/types';
 
@@ -56,9 +57,7 @@ export function PostShiftScreen({ navigation }: Props) {
       setError(createError);
       return;
     }
-    Alert.alert('Posted', 'Your request is now visible to support workers.', [
-      { text: 'OK', onPress: () => navigation.goBack() },
-    ]);
+    notify('Posted', 'Your request is now visible to support workers.', () => navigation.goBack());
   };
 
   return (

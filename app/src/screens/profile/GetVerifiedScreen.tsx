@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { colors, space, type } from '../../theme';
 import { ScreenHeader } from '../../components/ScreenHeader';
@@ -7,6 +7,7 @@ import { VerificationRow } from '../../components/VerificationRow';
 import { Button } from '../../components/Button';
 import { onboardingChecklist as initialChecklist, VerificationItem } from '../../data/mock';
 import { useHideTabBar } from '../../hooks/useHideTabBar';
+import { notify } from '../../lib/notify';
 
 export function GetVerifiedScreen() {
   const navigation = useNavigation();
@@ -16,10 +17,10 @@ export function GetVerifiedScreen() {
   const uploadNext = () => {
     const idx = checklist.findIndex((c) => c.status === 'upload_needed' || c.status === 'not_started');
     if (idx === -1) {
-      Alert.alert("You're all set", 'Every check is verified or in review.');
+      notify("You're all set", 'Every check is verified or in review.');
       return;
     }
-    Alert.alert('Document received', `${checklist[idx].label} is now in review.`);
+    notify('Document received', `${checklist[idx].label} is now in review.`);
     setChecklist((prev) => prev.map((c, i) => (i === idx ? { ...c, status: 'in_review' } : c)));
   };
 

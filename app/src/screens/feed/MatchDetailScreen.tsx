@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, space, type } from '../../theme';
@@ -11,6 +11,7 @@ import { BlueprintFrame } from '../../components/BlueprintFrame';
 import { fetchShift, applyToShift, Shift } from '../../data/queries';
 import { conversations } from '../../data/mock';
 import { useAuth } from '../../context/AuthContext';
+import { notify } from '../../lib/notify';
 import type { FeedStackParamList } from '../../navigation/types';
 
 type Props = NativeStackScreenProps<FeedStackParamList, 'MatchDetail'>;
@@ -63,12 +64,12 @@ export function MatchDetailScreen({ navigation, route }: Props) {
     const { error } = await applyToShift(shift.id, session.user.id);
     setApplying(false);
     if (error) {
-      Alert.alert("Couldn't apply", error);
+      notify("Couldn't apply", error);
       return;
     }
-    Alert.alert('Application sent', `${participant.name} will be notified you'd like to take this shift.`, [
-      { text: 'OK', onPress: () => navigation.goBack() },
-    ]);
+    notify('Application sent', `${participant.name} will be notified you'd like to take this shift.`, () =>
+      navigation.goBack()
+    );
   };
 
   return (
