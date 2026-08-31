@@ -8,8 +8,7 @@ import { Tag } from '../../components/Tag';
 import { Card } from '../../components/Card';
 import { Button } from '../../components/Button';
 import { BlueprintFrame } from '../../components/BlueprintFrame';
-import { fetchShift, applyToShift, Shift } from '../../data/queries';
-import { conversations } from '../../data/mock';
+import { fetchShift, applyToShift, findOrCreateConversation, Shift } from '../../data/queries';
 import { useAuth } from '../../context/AuthContext';
 import { notify } from '../../lib/notify';
 import type { FeedStackParamList } from '../../navigation/types';
@@ -18,7 +17,7 @@ type Props = NativeStackScreenProps<FeedStackParamList, 'MatchDetail'>;
 
 export function MatchDetailScreen({ navigation, route }: Props) {
   const insets = useSafeAreaInsets();
-  const { session } = useAuth();
+  const { session, profile } = useAuth();
   const [shift, setShift] = useState<Shift | null>(null);
   const [loading, setLoading] = useState(true);
   const [applying, setApplying] = useState(false);
@@ -47,11 +46,18 @@ export function MatchDetailScreen({ navigation, route }: Props) {
 
   const participant = shift.participant;
 
-  const messageParticipant = () => {
-    // Messages still run on mock data (out of scope for this pass) — match by
-    // first name onto the mocked conversation list.
-    const convo = conversations.find((c) => c.name.startsWith(participant.name));
-    if (!convo) return;
+  const messageParticipant = async () => {
+    if (!profile) return;
+    if (!participant.profile_id) {
+      notify('Messaging unavailable', "This is a demo profile without a real account, so it can't be messaged yet.");
+      return;
+    }
+    const convo = await findOrCreateConversation({
+      workerProfileId: profile.id,
+      workerName: profile.full_name,
+      participantProfileId: participant.profile_id,
+      participantName: participant.name,
+    });
     navigation.getParent<any>()?.navigate('MessagesTab', {
       screen: 'Conversation',
       params: { conversationId: convo.id },

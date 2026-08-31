@@ -205,3 +205,72 @@ create policy "applications: update for own shifts" on public.applications
   );
 
 grant select, insert, update on public.applications to authenticated;
+
+-- ── conversations ───────────────────────────────────────────────────────
+-- One thread per (worker, participant) pair, not per-shift. Real accounts
+-- only — a seeded fictional participant/worker (profile_id null) has no
+-- auth identity to message, so the app disables the Message button for
+-- those. worker_name/participant_name are captured at creation time (they
+-- already equal profiles.full_name for real signups) so the list/header
+-- screens don't need an extra profiles join or RLS policy to show them.
+create table if not exists public.conversations (
+  id uuid primary key default gen_random_uuid(),
+  worker_profile_id uuid not null references public.profiles (id) on delete cascade,
+  participant_profile_id uuid not null references public.profiles (id) on delete cascade,
+  worker_name text not null,
+  participant_name text not null,
+  last_message_body text,
+  last_message_at timestamptz not null default now(),
+  created_at timestamptz not null default now(),
+  unique (worker_profile_id, participant_profile_id)
+);
+
+alter table public.conversations enable row level security;
+
+drop policy if exists "conversations: select own" on public.conversations;
+create policy "conversations: select own" on public.conversations
+  for select using (auth.uid() in (worker_profile_id, participant_profile_id));
+
+drop policy if exists "conversations: insert own" on public.conversations;
+create policy "conversations: insert own" on public.conversations
+  for insert with check (auth.uid() in (worker_profile_id, participant_profile_id));
+
+drop policy if exists "conversations: update own" on public.conversations;
+create policy "conversations: update own" on public.conversations
+  for update using (auth.uid() in (worker_profile_id, participant_profile_id));
+
+grant select, insert, update on public.conversations to authenticated;
+
+-- ── messages ────────────────────────────────────────────────────────────
+create table if not exists public.messages (
+  id uuid primary key default gen_random_uuid(),
+  conversation_id uuid not null references public.conversations (id) on delete cascade,
+  sender_id uuid not null references public.profiles (id) on delete cascade,
+  body text not null,
+  created_at timestamptz not null default now()
+);
+
+alter table public.messages enable row level security;
+
+drop policy if exists "messages: select for my conversations" on public.messages;
+create policy "messages: select for my conversations" on public.messages
+  for select using (
+    exists (
+      select 1 from public.conversations c
+      where c.id = messages.conversation_id
+        and auth.uid() in (c.worker_profile_id, c.participant_profile_id)
+    )
+  );
+
+drop policy if exists "messages: insert for my conversations" on public.messages;
+create policy "messages: insert for my conversations" on public.messages
+  for insert with check (
+    auth.uid() = sender_id
+    and exists (
+      select 1 from public.conversations c
+      where c.id = messages.conversation_id
+        and auth.uid() in (c.worker_profile_id, c.participant_profile_id)
+    )
+  );
+
+grant select, insert on public.messages to authenticated;

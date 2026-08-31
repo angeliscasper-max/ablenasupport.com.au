@@ -156,3 +156,92 @@ export async function fetchWorker(workerId: string): Promise<WorkerProfile | nul
   if (error) throw error;
   return data as WorkerProfile | null;
 }
+
+// ── Messages ────────────────────────────────────────────────────────────
+
+export type ConversationRow = {
+  id: string;
+  worker_profile_id: string;
+  participant_profile_id: string;
+  worker_name: string;
+  participant_name: string;
+  last_message_body: string | null;
+  last_message_at: string;
+};
+
+export type ChatMessage = {
+  id: string;
+  conversation_id: string;
+  sender_id: string;
+  body: string;
+  created_at: string;
+};
+
+export async function fetchMyConversations(profileId: string): Promise<ConversationRow[]> {
+  const { data, error } = await supabase
+    .from('conversations')
+    .select('*')
+    .or(`worker_profile_id.eq.${profileId},participant_profile_id.eq.${profileId}`)
+    .order('last_message_at', { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as ConversationRow[];
+}
+
+export async function fetchConversation(conversationId: string): Promise<ConversationRow | null> {
+  const { data, error } = await supabase.from('conversations').select('*').eq('id', conversationId).maybeSingle();
+  if (error) throw error;
+  return data as ConversationRow | null;
+}
+
+export async function findOrCreateConversation(params: {
+  workerProfileId: string;
+  workerName: string;
+  participantProfileId: string;
+  participantName: string;
+}): Promise<ConversationRow> {
+  const { data: existing, error: findError } = await supabase
+    .from('conversations')
+    .select('*')
+    .eq('worker_profile_id', params.workerProfileId)
+    .eq('participant_profile_id', params.participantProfileId)
+    .maybeSingle();
+  if (findError) throw findError;
+  if (existing) return existing as ConversationRow;
+
+  const { data: created, error: createError } = await supabase
+    .from('conversations')
+    .insert({
+      worker_profile_id: params.workerProfileId,
+      participant_profile_id: params.participantProfileId,
+      worker_name: params.workerName,
+      participant_name: params.participantName,
+    })
+    .select('*')
+    .single();
+  if (createError) throw createError;
+  return created as ConversationRow;
+}
+
+export async function fetchMessages(conversationId: string): Promise<ChatMessage[]> {
+  const { data, error } = await supabase
+    .from('messages')
+    .select('*')
+    .eq('conversation_id', conversationId)
+    .order('created_at', { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as ChatMessage[];
+}
+
+export async function sendMessage(
+  conversationId: string,
+  senderId: string,
+  body: string
+): Promise<{ error: string | null }> {
+  const { error } = await supabase.from('messages').insert({ conversation_id: conversationId, sender_id: senderId, body });
+  if (error) return { error: error.message };
+  await supabase
+    .from('conversations')
+    .update({ last_message_body: body, last_message_at: new Date().toISOString() })
+    .eq('id', conversationId);
+  return { error: null };
+}

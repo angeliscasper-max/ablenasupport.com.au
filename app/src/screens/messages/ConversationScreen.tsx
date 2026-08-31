@@ -1,30 +1,68 @@
-import React, { useState } from 'react';
-import { FlatList, KeyboardAvoidingView, Platform, Pressable, StyleSheet, View } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, Pressable, StyleSheet, View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, space } from '../../theme';
 import { ScreenHeader } from '../../components/ScreenHeader';
-import { Tag } from '../../components/Tag';
 import { TextField } from '../../components/TextField';
 import { MessageBubble } from '../../components/MessageBubble';
 import { SendIcon } from '../../icons';
-import { conversations, Message } from '../../data/mock';
+import { fetchConversation, fetchMessages, sendMessage, ConversationRow, ChatMessage } from '../../data/queries';
+import { useAuth } from '../../context/AuthContext';
 import type { MessagesStackParamList } from '../../navigation/types';
 
 type Props = NativeStackScreenProps<MessagesStackParamList, 'Conversation'>;
 
 export function ConversationScreen({ navigation, route }: Props) {
   const insets = useSafeAreaInsets();
-  const base = conversations.find((c) => c.id === route.params.conversationId) ?? conversations[0];
-  const [messages, setMessages] = useState<Message[]>(base.messages);
+  const { profile } = useAuth();
+  const [conversation, setConversation] = useState<ConversationRow | null>(null);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [loading, setLoading] = useState(true);
   const [draft, setDraft] = useState('');
+  const [sending, setSending] = useState(false);
 
-  const send = () => {
+  const load = useCallback(() => {
+    setLoading(true);
+    Promise.all([fetchConversation(route.params.conversationId), fetchMessages(route.params.conversationId)])
+      .then(([convo, msgs]) => {
+        setConversation(convo);
+        setMessages(msgs);
+      })
+      .finally(() => setLoading(false));
+  }, [route.params.conversationId]);
+
+  useFocusEffect(
+    useCallback(() => {
+      load();
+    }, [load])
+  );
+
+  const send = async () => {
     const text = draft.trim();
-    if (!text) return;
-    setMessages((prev) => [...prev, { id: `local-${prev.length}`, fromMe: true, text }]);
+    if (!text || !profile) return;
+    setSending(true);
     setDraft('');
+    await sendMessage(route.params.conversationId, profile.id, text);
+    setSending(false);
+    load();
   };
+
+  const otherName =
+    conversation && profile
+      ? profile.id === conversation.worker_profile_id
+        ? conversation.participant_name
+        : conversation.worker_name
+      : '';
+
+  if (loading && !conversation) {
+    return (
+      <View style={[styles.screen, { alignItems: 'center', justifyContent: 'center' }]}>
+        <ActivityIndicator color={colors.accent} />
+      </View>
+    );
+  }
 
   return (
     <KeyboardAvoidingView
@@ -32,23 +70,24 @@ export function ConversationScreen({ navigation, route }: Props) {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       keyboardVerticalOffset={insets.top}
     >
-      <ScreenHeader title={base.name} onBack={() => navigation.goBack()} right={<Tag label="Verified" variant="accent" />} />
+      <ScreenHeader title={otherName} onBack={() => navigation.goBack()} />
       <FlatList
         data={messages}
         keyExtractor={(m) => m.id}
         contentContainerStyle={styles.list}
-        renderItem={({ item }) => <MessageBubble text={item.text} fromMe={item.fromMe} />}
+        renderItem={({ item }) => <MessageBubble text={item.body} fromMe={item.sender_id === profile?.id} />}
       />
       <View style={[styles.inputRow, { paddingBottom: Math.max(insets.bottom, 10) }]}>
         <TextField
           style={{ flex: 1 }}
-          placeholder={`Message ${base.name.split(' ')[0]}…`}
+          placeholder={`Message ${otherName.split(' ')[0] ?? ''}…`}
           value={draft}
           onChangeText={setDraft}
           onSubmitEditing={send}
           returnKeyType="send"
+          editable={!sending}
         />
-        <Pressable style={styles.sendBtn} onPress={send}>
+        <Pressable style={styles.sendBtn} onPress={send} disabled={sending}>
           <SendIcon size={16} />
         </Pressable>
       </View>

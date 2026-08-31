@@ -6,12 +6,14 @@ import { ScreenHeader } from '../../components/ScreenHeader';
 import { Tag } from '../../components/Tag';
 import { Button } from '../../components/Button';
 import { BlueprintFrame } from '../../components/BlueprintFrame';
-import { fetchWorker, WorkerProfile } from '../../data/queries';
-import { conversations } from '../../data/mock';
+import { fetchWorker, findOrCreateConversation, WorkerProfile } from '../../data/queries';
+import { useAuth } from '../../context/AuthContext';
+import { notify } from '../../lib/notify';
 
 export function WorkerDetailScreen() {
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
+  const { profile } = useAuth();
   const [worker, setWorker] = useState<WorkerProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -29,12 +31,18 @@ export function WorkerDetailScreen() {
     };
   }, [route.params.workerId]);
 
-  const messageWorker = () => {
-    if (!worker) return;
-    const convo = conversations.find((c) => worker.name.startsWith(c.name.replace(/\s*[A-Z]\.$/, '').trim()));
-    // Mock messages don't have a row per worker — fall back to the first
-    // conversation so the tap always goes somewhere during a demo.
-    const target = convo ?? conversations[0];
+  const messageWorker = async () => {
+    if (!worker || !profile) return;
+    if (!worker.profile_id) {
+      notify('Messaging unavailable', "This is a demo profile without a real account, so it can't be messaged yet.");
+      return;
+    }
+    const convo = await findOrCreateConversation({
+      workerProfileId: worker.profile_id,
+      workerName: worker.name,
+      participantProfileId: profile.id,
+      participantName: profile.full_name,
+    });
     const parent = navigation.getParent();
     const routeNames: string[] = parent?.getState()?.routeNames ?? [];
     const tabName = routeNames.includes('MessagesTab')
@@ -42,7 +50,7 @@ export function WorkerDetailScreen() {
       : routeNames.includes('ParticipantMessagesTab')
         ? 'ParticipantMessagesTab'
         : null;
-    if (tabName) parent.navigate(tabName, { screen: 'Conversation', params: { conversationId: target.id } });
+    if (tabName) parent.navigate(tabName, { screen: 'Conversation', params: { conversationId: convo.id } });
   };
 
   if (loading || !worker) {

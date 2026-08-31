@@ -39,42 +39,6 @@ export const thisWeek: WeekEntry[] = [
   { label: 'Sat · Grace L.', status: 'Upcoming' },
 ];
 
-export type Message = { id: string; fromMe: boolean; text: string };
-export type Conversation = { id: string; participantId: string; name: string; verified: boolean; messages: Message[] };
-
-export const conversations: Conversation[] = [
-  {
-    id: 'conv-priya',
-    participantId: 'priya',
-    name: 'Priya M.',
-    verified: true,
-    messages: [
-      { id: 'm1', fromMe: false, text: 'Hi! Looking forward to Tuesday morning.' },
-      { id: 'm2', fromMe: true, text: "Me too — I'll bring the podcast list you mentioned." },
-      { id: 'm3', fromMe: false, text: 'Perfect. My sister will be home too if you need anything.' },
-    ],
-  },
-  {
-    id: 'conv-tom',
-    participantId: 'tom',
-    name: 'Tom B.',
-    verified: true,
-    messages: [
-      { id: 'm1', fromMe: false, text: 'Hey! Still on for the pool Wednesday?' },
-      { id: 'm2', fromMe: true, text: "Yep, see you at 4! I'll bring a spare towel just in case." },
-    ],
-  },
-  {
-    id: 'conv-grace',
-    participantId: 'grace',
-    name: "Grace's family",
-    verified: true,
-    messages: [
-      { id: 'm1', fromMe: false, text: 'Thanks for confirming Friday night — Grace is excited.' },
-      { id: 'm2', fromMe: true, text: "No worries at all, we'll have a great night." },
-    ],
-  },
-];
 
 export type PayoutShift = { id: string; label: string; amount: string };
 export const thisWeekPayouts: PayoutShift[] = [
