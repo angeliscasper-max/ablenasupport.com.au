@@ -12,6 +12,7 @@ import { VerificationRow } from '../../components/VerificationRow';
 import { worker } from '../../data/mock';
 import { fetchMyWorkerProfile, fetchMyVerifications, WorkerProfile, WorkerVerification } from '../../data/queries';
 import { useAuth } from '../../context/AuthContext';
+import { notify } from '../../lib/notify';
 import type { ProfileStackParamList } from '../../navigation/types';
 
 type Props = NativeStackScreenProps<ProfileStackParamList, 'Profile'>;
@@ -26,13 +27,17 @@ export function ProfileScreen({ navigation }: Props) {
     useCallback(() => {
       if (!profile) return;
       let cancelled = false;
-      fetchMyWorkerProfile(profile.id).then((me) => {
-        if (cancelled || !me) return;
-        setWorkerProfile(me);
-        fetchMyVerifications(me.id).then((rows) => {
-          if (!cancelled) setChecklist(rows);
+      fetchMyWorkerProfile(profile.id)
+        .then((me) => {
+          if (cancelled || !me) return;
+          setWorkerProfile(me);
+          return fetchMyVerifications(me.id).then((rows) => {
+            if (!cancelled) setChecklist(rows);
+          });
+        })
+        .catch((e) => {
+          if (!cancelled) notify("Couldn't load profile", e instanceof Error ? e.message : String(e));
         });
-      });
       return () => {
         cancelled = true;
       };

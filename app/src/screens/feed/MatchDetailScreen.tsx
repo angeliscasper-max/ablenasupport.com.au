@@ -49,12 +49,16 @@ export function MatchDetailScreen({ navigation, route }: Props) {
   useEffect(() => {
     if (!profile) return;
     let cancelled = false;
-    fetchMyWorkerProfile(profile.id).then((me) => {
-      if (cancelled || !me) return;
-      fetchMyVerifications(me.id).then((rows) => {
-        if (!cancelled) setChecklist(rows);
+    fetchMyWorkerProfile(profile.id)
+      .then((me) => {
+        if (cancelled || !me) return;
+        return fetchMyVerifications(me.id).then((rows) => {
+          if (!cancelled) setChecklist(rows);
+        });
+      })
+      .catch(() => {
+        // Non-critical here — the card just stays hidden if this fails.
       });
-    });
     return () => {
       cancelled = true;
     };

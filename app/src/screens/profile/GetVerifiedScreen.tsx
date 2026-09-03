@@ -24,6 +24,9 @@ export function GetVerifiedScreen() {
     fetchMyWorkerProfile(profile.id)
       .then((me) => (me ? fetchMyVerifications(me.id) : Promise.resolve([])))
       .then(setChecklist)
+      .catch((e) => {
+        notify("Couldn't load checklist", e instanceof Error ? e.message : String(e));
+      })
       .finally(() => setLoading(false));
   }, [profile]);
 
@@ -34,6 +37,10 @@ export function GetVerifiedScreen() {
   );
 
   const uploadNext = async () => {
+    if (checklist.length === 0) {
+      notify("Couldn't load checklist", 'Try leaving this screen and coming back.');
+      return;
+    }
     const next = checklist.find((c) => c.status === 'upload_needed' || c.status === 'not_started');
     if (!next) {
       notify("You're all set", 'Every check is verified or in review.');
