@@ -44,3 +44,19 @@ insert into public.worker_profiles (id, name, category, availability, bio, skill
 on conflict (id) do update set
   name = excluded.name, category = excluded.category, availability = excluded.availability,
   bio = excluded.bio, skills = excluded.skills, rating = excluded.rating, review_count = excluded.review_count;
+
+insert into public.worker_verifications (worker_profile_id, label, status)
+select w.id, label, 'verified'
+from public.worker_profiles w
+cross join (values
+  ('NDIS Worker Screening Check'),
+  ('Working with Children Check (WWCC)'),
+  ('Right to Work'),
+  ('Police check'),
+  ('First Aid and CPR'),
+  ('Driver''s Licence'),
+  ('Vaccinations'),
+  ('Worker Orientation Modules')
+) as checks(label)
+where w.id in ('b1111111-1111-1111-1111-111111111111', 'b2222222-2222-2222-2222-222222222222')
+on conflict (worker_profile_id, label) do update set status = excluded.status;

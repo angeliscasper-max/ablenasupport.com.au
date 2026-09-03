@@ -2,23 +2,25 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { colors, type } from '../theme';
 import { Tag } from './Tag';
-import { VerificationItem } from '../data/mock';
+import { VerificationStatus } from '../data/queries';
 
-const STATUS_LABEL: Record<VerificationItem['status'], string> = {
+const STATUS_LABEL: Record<VerificationStatus, string> = {
   verified: 'Verified',
   in_review: 'In review',
   upload_needed: 'Upload needed',
   not_started: 'Not started',
 };
 
-const STATUS_VARIANT: Record<VerificationItem['status'], 'accent' | 'neutral' | 'outline'> = {
+const STATUS_VARIANT: Record<VerificationStatus, 'accent' | 'neutral' | 'outline'> = {
   verified: 'accent',
   in_review: 'neutral',
   upload_needed: 'outline',
   not_started: 'outline',
 };
 
-export function VerificationRow({ item, isLast }: { item: VerificationItem; isLast?: boolean }) {
+type Item = { label: string; status: VerificationStatus };
+
+export function VerificationRow({ item, isLast }: { item: Item; isLast?: boolean }) {
   return (
     <View style={[styles.row, !isLast && styles.divider]}>
       <Text style={[type.bodySm, styles.label]}>{item.label}</Text>

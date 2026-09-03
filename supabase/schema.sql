@@ -274,3 +274,44 @@ create policy "messages: insert for my conversations" on public.messages
   );
 
 grant select, insert on public.messages to authenticated;
+
+-- ── worker_verifications ────────────────────────────────────────────────
+-- One row per screening/credential check per worker. select-all mirrors
+-- worker_profiles/participants — a verification badge is a public trust
+-- signal, meant to be visible to anyone browsing the marketplace, not
+-- just the owning worker.
+create table if not exists public.worker_verifications (
+  id uuid primary key default gen_random_uuid(),
+  worker_profile_id uuid not null references public.worker_profiles (id) on delete cascade,
+  label text not null,
+  status text not null default 'not_started' check (status in ('verified', 'in_review', 'upload_needed', 'not_started')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (worker_profile_id, label)
+);
+
+alter table public.worker_verifications enable row level security;
+
+drop policy if exists "worker_verifications: select all" on public.worker_verifications;
+create policy "worker_verifications: select all" on public.worker_verifications
+  for select using (auth.role() = 'authenticated');
+
+drop policy if exists "worker_verifications: insert own" on public.worker_verifications;
+create policy "worker_verifications: insert own" on public.worker_verifications
+  for insert with check (
+    exists (
+      select 1 from public.worker_profiles wp
+      where wp.id = worker_verifications.worker_profile_id and wp.profile_id = auth.uid()
+    )
+  );
+
+drop policy if exists "worker_verifications: update own" on public.worker_verifications;
+create policy "worker_verifications: update own" on public.worker_verifications
+  for update using (
+    exists (
+      select 1 from public.worker_profiles wp
+      where wp.id = worker_verifications.worker_profile_id and wp.profile_id = auth.uid()
+    )
+  );
+
+grant select, insert, update on public.worker_verifications to authenticated;

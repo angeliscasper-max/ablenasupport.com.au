@@ -8,9 +8,18 @@ import { Tag } from '../../components/Tag';
 import { Card } from '../../components/Card';
 import { Button } from '../../components/Button';
 import { BlueprintFrame } from '../../components/BlueprintFrame';
-import { fetchShift, applyToShift, findOrCreateConversation, Shift } from '../../data/queries';
+import {
+  fetchShift,
+  applyToShift,
+  findOrCreateConversation,
+  fetchMyWorkerProfile,
+  fetchMyVerifications,
+  Shift,
+  WorkerVerification,
+} from '../../data/queries';
 import { useAuth } from '../../context/AuthContext';
 import { notify } from '../../lib/notify';
+import { VerificationRow } from '../../components/VerificationRow';
 import type { FeedStackParamList } from '../../navigation/types';
 
 type Props = NativeStackScreenProps<FeedStackParamList, 'MatchDetail'>;
@@ -21,6 +30,7 @@ export function MatchDetailScreen({ navigation, route }: Props) {
   const [shift, setShift] = useState<Shift | null>(null);
   const [loading, setLoading] = useState(true);
   const [applying, setApplying] = useState(false);
+  const [checklist, setChecklist] = useState<WorkerVerification[]>([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -35,6 +45,20 @@ export function MatchDetailScreen({ navigation, route }: Props) {
       cancelled = true;
     };
   }, [route.params.shiftId]);
+
+  useEffect(() => {
+    if (!profile) return;
+    let cancelled = false;
+    fetchMyWorkerProfile(profile.id).then((me) => {
+      if (cancelled || !me) return;
+      fetchMyVerifications(me.id).then((rows) => {
+        if (!cancelled) setChecklist(rows);
+      });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [profile]);
 
   if (loading || !shift) {
     return (
@@ -106,19 +130,16 @@ export function MatchDetailScreen({ navigation, route }: Props) {
           </View>
         </View>
 
-        <Card>
-          <Text style={type.cardKicker}>You meet every requirement</Text>
-          <View style={{ gap: 6 }}>
-            <View style={styles.reqRow}>
-              <Text style={type.bodySm}>Manual handling cert</Text>
-              <Tag label="Verified" variant="accent" />
+        {checklist.length > 0 && (
+          <Card>
+            <Text style={type.cardKicker}>Your verification status</Text>
+            <View>
+              {checklist.map((item, i) => (
+                <VerificationRow key={item.id} item={item} isLast={i === checklist.length - 1} />
+              ))}
             </View>
-            <View style={styles.reqRow}>
-              <Text style={type.bodySm}>NDIS Worker Screening</Text>
-              <Tag label="Verified" variant="accent" />
-            </View>
-          </View>
-        </Card>
+          </Card>
+        )}
       </ScrollView>
 
       <View style={[styles.footer, { paddingBottom: insets.bottom + 12 }]}>
@@ -143,7 +164,6 @@ const styles = StyleSheet.create({
   nameRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: space[2] },
   bio: { opacity: 0.75, marginTop: 8 },
   tagRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
-  reqRow: { flexDirection: 'row', justifyContent: 'space-between' },
   footer: {
     flexDirection: 'row',
     gap: 10,

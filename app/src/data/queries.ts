@@ -157,6 +157,66 @@ export async function fetchWorker(workerId: string): Promise<WorkerProfile | nul
   return data as WorkerProfile | null;
 }
 
+export async function fetchMyWorkerProfile(profileId: string): Promise<WorkerProfile | null> {
+  const { data, error } = await supabase.from('worker_profiles').select('*').eq('profile_id', profileId).maybeSingle();
+  if (error) throw error;
+  return data as WorkerProfile | null;
+}
+
+// ── Verification ────────────────────────────────────────────────────────
+
+export type VerificationStatus = 'verified' | 'in_review' | 'upload_needed' | 'not_started';
+
+export type WorkerVerification = {
+  id: string;
+  worker_profile_id: string;
+  label: string;
+  status: VerificationStatus;
+  created_at: string;
+  updated_at: string;
+};
+
+const DEFAULT_VERIFICATION_LABELS = [
+  'NDIS Worker Screening Check',
+  'Working with Children Check (WWCC)',
+  'Right to Work',
+  'Police check',
+  'First Aid and CPR',
+  "Driver's Licence",
+  'Vaccinations',
+  'Worker Orientation Modules',
+];
+
+export async function fetchMyVerifications(workerProfileId: string): Promise<WorkerVerification[]> {
+  const { data, error } = await supabase
+    .from('worker_verifications')
+    .select('*')
+    .eq('worker_profile_id', workerProfileId)
+    .order('created_at', { ascending: true });
+  if (error) throw error;
+  if (data && data.length > 0) return data as WorkerVerification[];
+
+  // First time this worker has ever opened a verification screen — every
+  // account created before this table existed has no rows yet either.
+  const { data: created, error: createError } = await supabase
+    .from('worker_verifications')
+    .insert(DEFAULT_VERIFICATION_LABELS.map((label) => ({ worker_profile_id: workerProfileId, label })))
+    .select('*');
+  if (createError) throw createError;
+  return (created ?? []) as WorkerVerification[];
+}
+
+export async function updateVerificationStatus(
+  id: string,
+  status: VerificationStatus
+): Promise<{ error: string | null }> {
+  const { error } = await supabase
+    .from('worker_verifications')
+    .update({ status, updated_at: new Date().toISOString() })
+    .eq('id', id);
+  return { error: error?.message ?? null };
+}
+
 // ── Messages ────────────────────────────────────────────────────────────
 
 export type ConversationRow = {

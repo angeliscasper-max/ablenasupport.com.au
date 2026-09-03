@@ -1,32 +1,3 @@
-export type VerificationStatus = 'verified' | 'in_review' | 'upload_needed' | 'not_started';
-
-export type VerificationItem = { label: string; status: VerificationStatus };
-
-// The 8 checks the user specified, in order, all verified — shown on the
-// worker's own Profile screen.
-export const verificationChecklist: VerificationItem[] = [
-  { label: 'NDIS Worker Screening Check', status: 'verified' },
-  { label: 'Working with Children Check (WWCC)', status: 'verified' },
-  { label: 'Right to Work', status: 'verified' },
-  { label: 'Police check', status: 'verified' },
-  { label: 'First Aid and CPR', status: 'verified' },
-  { label: "Driver's Licence", status: 'verified' },
-  { label: 'Vaccinations', status: 'verified' },
-  { label: 'Worker Orientation Modules', status: 'verified' },
-];
-
-// The in-progress version shown on the "Get verified" onboarding screen.
-export const onboardingChecklist: VerificationItem[] = [
-  { label: 'Photo ID', status: 'verified' },
-  { label: 'NDIS Worker Screening Check', status: 'verified' },
-  { label: 'Working with Children Check', status: 'in_review' },
-  { label: 'Police check', status: 'upload_needed' },
-  { label: 'First Aid and CPR', status: 'upload_needed' },
-  { label: "Driver's Licence", status: 'upload_needed' },
-  { label: 'Vaccinations', status: 'upload_needed' },
-  { label: 'Worker Orientation Modules', status: 'not_started' },
-];
-
 export const todayShift = {
   timeLabel: '7:00 – 9:00AM',
   title: 'Morning routine with Priya',
@@ -56,9 +27,6 @@ export const reviews: Review[] = [
 export const ratingSummary = { average: 4.98, count: 132, wouldRebookPct: 98 };
 
 export const worker = {
-  name: 'Amara N.',
-  rating: 4.98,
-  reviewCount: 132,
   weekEarnings: '$612',
   weekHours: 48,
   weekShifts: 6,
