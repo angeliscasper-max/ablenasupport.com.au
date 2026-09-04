@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MyShiftsScreen } from '../screens/participant/MyShiftsScreen';
 import { PostShiftScreen } from '../screens/participant/PostShiftScreen';
 import { ApplicantsScreen } from '../screens/participant/ApplicantsScreen';
+import { LeaveReviewScreen } from '../screens/participant/LeaveReviewScreen';
 import type { RequestsStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RequestsStackParamList>();
@@ -13,6 +14,7 @@ export function RequestsStack() {
       <Stack.Screen name="MyShifts" component={MyShiftsScreen} />
       <Stack.Screen name="PostShift" component={PostShiftScreen} options={{ presentation: 'modal' }} />
       <Stack.Screen name="Applicants" component={ApplicantsScreen} />
+      <Stack.Screen name="LeaveReview" component={LeaveReviewScreen} options={{ presentation: 'modal' }} />
     </Stack.Navigator>
   );
 }

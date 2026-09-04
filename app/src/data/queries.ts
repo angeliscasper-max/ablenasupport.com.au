@@ -206,6 +206,56 @@ export async function fetchMyVerifications(workerProfileId: string): Promise<Wor
   return (created ?? []) as WorkerVerification[];
 }
 
+// ── Reviews ─────────────────────────────────────────────────────────────
+
+export type Review = {
+  id: string;
+  application_id: string;
+  worker_profile_id: string;
+  author_profile_id: string;
+  author_name: string;
+  stars: number;
+  text: string;
+  created_at: string;
+};
+
+export async function fetchReviewsForWorker(workerProfileId: string): Promise<Review[]> {
+  const { data, error } = await supabase
+    .from('reviews')
+    .select('*')
+    .eq('worker_profile_id', workerProfileId)
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as Review[];
+}
+
+export async function fetchReviewForApplication(applicationId: string): Promise<Review | null> {
+  const { data, error } = await supabase.from('reviews').select('*').eq('application_id', applicationId).maybeSingle();
+  if (error) throw error;
+  return data as Review | null;
+}
+
+export async function submitReview(params: {
+  applicationId: string;
+  workerProfileId: string;
+  authorProfileId: string;
+  authorName: string;
+  stars: number;
+  text: string;
+}): Promise<{ error: string | null }> {
+  const { error } = await supabase.from('reviews').insert({
+    application_id: params.applicationId,
+    worker_profile_id: params.workerProfileId,
+    author_profile_id: params.authorProfileId,
+    author_name: params.authorName,
+    stars: params.stars,
+    text: params.text,
+  });
+  if (!error) return { error: null };
+  if (error.code === '23505') return { error: "You've already reviewed this booking." };
+  return { error: error.message };
+}
+
 export async function updateVerificationStatus(
   id: string,
   status: VerificationStatus

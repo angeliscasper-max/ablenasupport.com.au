@@ -315,3 +315,44 @@ create policy "worker_verifications: update own" on public.worker_verifications
   );
 
 grant select, insert, update on public.worker_verifications to authenticated;
+
+-- ── reviews ─────────────────────────────────────────────────────────────
+-- One review per confirmed booking. worker_profiles.rating/review_count
+-- are left untouched, plain columns — the app computes a live average
+-- from these rows on single-worker views instead of granting anyone but
+-- the worker themself write access to worker_profiles.
+create table if not exists public.reviews (
+  id uuid primary key default gen_random_uuid(),
+  application_id uuid not null unique references public.applications (id) on delete cascade,
+  worker_profile_id uuid not null references public.worker_profiles (id) on delete cascade,
+  author_profile_id uuid not null references public.profiles (id) on delete cascade,
+  author_name text not null,
+  stars int not null check (stars between 1 and 5),
+  text text not null default '',
+  created_at timestamptz not null default now()
+);
+
+alter table public.reviews enable row level security;
+
+drop policy if exists "reviews: select all" on public.reviews;
+create policy "reviews: select all" on public.reviews
+  for select using (auth.role() = 'authenticated');
+
+drop policy if exists "reviews: insert for confirmed bookings" on public.reviews;
+create policy "reviews: insert for confirmed bookings" on public.reviews
+  for insert with check (
+    author_profile_id = auth.uid()
+    and exists (
+      select 1
+      from public.applications a
+      join public.shifts s on s.id = a.shift_id
+      join public.participants p on p.id = s.participant_id
+      join public.worker_profiles wp on wp.profile_id = a.worker_id
+      where a.id = reviews.application_id
+        and a.status = 'confirmed'
+        and p.profile_id = auth.uid()
+        and wp.id = reviews.worker_profile_id
+    )
+  );
+
+grant select, insert on public.reviews to authenticated;

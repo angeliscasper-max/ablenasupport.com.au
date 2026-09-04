@@ -23,7 +23,7 @@ export type ProfileStackParamList = {
   Profile: undefined;
   GetVerified: undefined;
   Payments: undefined;
-  Reviews: undefined;
+  Reviews: { workerProfileId?: string } | undefined;
   BrowseWorkers: undefined;
   WorkerDetail: { workerId: string };
 };
@@ -39,11 +39,13 @@ export type RequestsStackParamList = {
   MyShifts: undefined;
   PostShift: undefined;
   Applicants: { shiftId: string };
+  LeaveReview: { applicationId: string; workerProfileId: string; workerName: string };
 };
 
 export type BrowseStackParamList = {
   Browse: undefined;
   WorkerDetail: { workerId: string };
+  Reviews: { workerProfileId?: string } | undefined;
 };
 
 export type ParticipantProfileStackParamList = {

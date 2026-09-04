@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { colors, space, type } from '../../theme';
 import { ScreenHeader } from '../../components/ScreenHeader';
@@ -71,9 +71,11 @@ export function WorkerDetailScreen() {
 
         <View>
           <Text style={type.h3}>{worker.name}</Text>
-          <Text style={styles.rating}>
-            {worker.rating.toFixed(2)} ★ · {worker.review_count} reviews · {worker.availability}
-          </Text>
+          <Pressable onPress={() => navigation.navigate('Reviews', { workerProfileId: worker.id })}>
+            <Text style={styles.rating}>
+              {worker.rating.toFixed(2)} ★ · {worker.review_count} reviews · {worker.availability}
+            </Text>
+          </Pressable>
         </View>
 
         <Text style={[type.bodySm, styles.bio]}>{worker.bio || 'No bio yet.'}</Text>
