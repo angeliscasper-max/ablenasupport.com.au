@@ -6,7 +6,7 @@ import { ScreenHeader } from '../../components/ScreenHeader';
 import { Tag } from '../../components/Tag';
 import { Button } from '../../components/Button';
 import { BlueprintFrame } from '../../components/BlueprintFrame';
-import { fetchWorker, findOrCreateConversation, WorkerProfile } from '../../data/queries';
+import { fetchWorker, findOrCreateConversation, fetchReviewsForWorker, WorkerProfile, Review } from '../../data/queries';
 import { useAuth } from '../../context/AuthContext';
 import { notify } from '../../lib/notify';
 
@@ -15,13 +15,18 @@ export function WorkerDetailScreen() {
   const route = useRoute<any>();
   const { profile } = useAuth();
   const [worker, setWorker] = useState<WorkerProfile | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
     fetchWorker(route.params.workerId)
       .then((w) => {
-        if (!cancelled) setWorker(w);
+        if (cancelled || !w) return;
+        setWorker(w);
+        return fetchReviewsForWorker(w.id).then((rows) => {
+          if (!cancelled) setReviews(rows);
+        });
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -30,6 +35,13 @@ export function WorkerDetailScreen() {
       cancelled = true;
     };
   }, [route.params.workerId]);
+
+  const rating = worker
+    ? reviews.length
+      ? reviews.reduce((sum, r) => sum + r.stars, 0) / reviews.length
+      : worker.rating
+    : 0;
+  const reviewCount = worker ? reviews.length || worker.review_count : 0;
 
   const messageWorker = async () => {
     if (!worker || !profile) return;
@@ -73,7 +85,7 @@ export function WorkerDetailScreen() {
           <Text style={type.h3}>{worker.name}</Text>
           <Pressable onPress={() => navigation.navigate('Reviews', { workerProfileId: worker.id })}>
             <Text style={styles.rating}>
-              {worker.rating.toFixed(2)} ★ · {worker.review_count} reviews · {worker.availability}
+              {rating.toFixed(2)} ★ · {reviewCount} reviews · {worker.availability}
             </Text>
           </Pressable>
         </View>
