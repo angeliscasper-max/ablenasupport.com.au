@@ -9,15 +9,17 @@ import { Tag } from '../../components/Tag';
 import { Button } from '../../components/Button';
 import { BlueprintFrame } from '../../components/BlueprintFrame';
 import { VerificationRow } from '../../components/VerificationRow';
-import { worker } from '../../data/mock';
 import {
   fetchMyWorkerProfile,
   fetchMyVerifications,
   fetchReviewsForWorker,
+  fetchMyBookings,
   WorkerProfile,
   WorkerVerification,
   Review,
+  Booking,
 } from '../../data/queries';
+import { summarizeConfirmedBookings } from '../../lib/shiftEarnings';
 import { useAuth } from '../../context/AuthContext';
 import { notify } from '../../lib/notify';
 import type { ProfileStackParamList } from '../../navigation/types';
@@ -30,6 +32,7 @@ export function ProfileScreen({ navigation }: Props) {
   const [workerProfile, setWorkerProfile] = useState<WorkerProfile | null>(null);
   const [checklist, setChecklist] = useState<WorkerVerification[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
 
   useFocusEffect(
     useCallback(() => {
@@ -39,13 +42,16 @@ export function ProfileScreen({ navigation }: Props) {
         .then((me) => {
           if (cancelled || !me) return;
           setWorkerProfile(me);
-          return Promise.all([fetchMyVerifications(me.id), fetchReviewsForWorker(me.id)]).then(
-            ([verifications, reviewRows]) => {
-              if (cancelled) return;
-              setChecklist(verifications);
-              setReviews(reviewRows);
-            }
-          );
+          return Promise.all([
+            fetchMyVerifications(me.id),
+            fetchReviewsForWorker(me.id),
+            fetchMyBookings(profile.id),
+          ]).then(([verifications, reviewRows, bookingRows]) => {
+            if (cancelled) return;
+            setChecklist(verifications);
+            setReviews(reviewRows);
+            setBookings(bookingRows);
+          });
         })
         .catch((e) => {
           if (!cancelled) notify("Couldn't load profile", e instanceof Error ? e.message : String(e));
@@ -59,6 +65,7 @@ export function ProfileScreen({ navigation }: Props) {
   const fullyVerified = checklist.length > 0 && checklist.every((c) => c.status === 'verified');
   const rating = reviews.length ? reviews.reduce((sum, r) => sum + r.stars, 0) / reviews.length : workerProfile?.rating ?? 0;
   const reviewCount = reviews.length || workerProfile?.review_count || 0;
+  const earnings = summarizeConfirmedBookings(bookings);
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={[styles.body, { paddingTop: insets.top + 24 }]}>
@@ -89,10 +96,10 @@ export function ProfileScreen({ navigation }: Props) {
       </Pressable>
 
       <Card>
-        <Text style={type.cardKicker}>This week</Text>
-        <Text style={styles.earnings}>{worker.weekEarnings}</Text>
+        <Text style={type.cardKicker}>Earnings</Text>
+        <Text style={styles.earnings}>${earnings.totalAmount.toFixed(2)}</Text>
         <Text style={[type.bodySm, { opacity: 0.65 }]}>
-          {worker.weekHours} hrs across {worker.weekShifts} shifts
+          {earnings.totalHours.toFixed(1)} hrs across {earnings.shiftCount} shifts
         </Text>
         <Button title="View payout history" variant="secondary" block onPress={() => navigation.navigate('Payments')} />
       </Card>

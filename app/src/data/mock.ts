@@ -11,27 +11,6 @@ export const thisWeek: WeekEntry[] = [
 ];
 
 
-export type PayoutShift = { id: string; label: string; amount: string };
-export const thisWeekPayouts: PayoutShift[] = [
-  { id: 'p1', label: 'Mon · Tom B. · 1.5hr', amount: '$78.90' },
-  { id: 'p2', label: 'Tue · Priya M. · 2hr', amount: '$116.40' },
-  { id: 'p3', label: 'Fri · Grace L. · 10hr', amount: '$411.00' },
-];
-export const nextPayout = { amount: '$612.00', dayLabel: 'Fri' };
-
-export type Review = { id: string; author: string; stars: number; text: string };
-export const reviews: Review[] = [
-  { id: 'r1', author: 'Priya M.', stars: 5, text: "Amara is punctual, gentle and remembers small things — like which podcast I'm up to." },
-  { id: 'r2', author: 'Tom B.', stars: 5, text: 'Great energy at the gym, always on time, communicates clearly beforehand.' },
-];
-export const ratingSummary = { average: 4.98, count: 132, wouldRebookPct: 98 };
-
-export const worker = {
-  weekEarnings: '$612',
-  weekHours: 48,
-  weekShifts: 6,
-};
-
 export type BrowseWorker = {
   id: string;
   name: string;
